@@ -2,7 +2,13 @@
 ## The following objects are built and then saved in R/sysdata.rda
 
 ###############################################################################
-## Define constants
+## Define generic constants
+
+# Constant to convert from radians to degrees
+.radToDegree <- 180 / pi
+
+###############################################################################
+## Define specialconstants
 
 # Flattening constant
 .f <- 1 / 298.257223563
@@ -69,23 +75,23 @@ data.table::setkey(
   n, m, version
 )
 
-# n is degree & m is order
-# Note nDegree = 13 needed to calculate P_Schmidt_muDeriv, even though only the
+# n is degree & m is order.
+# Note: nDegree = 13 needed to calculate P_Schmidt_muDeriv, even though only the
 # first 12 degrees are summed.
 .P <- data.table::data.table(n = 1:13, key = "n")
 .P <- .P[, .(m = 0:n), by = eval(data.table::key(.P))]
 data.table::setkey(.P, n, m)
 
-# Define index used for recursion, see P_recursive for details
+# Define index used for recursion, see P_recursive for details.
 .P[, index := .I]
 
-# index == 6 means the constant m recursion relation is used
+# index == 6 means the constant m recursion relation is used.
 .P[.P[!J(0:2)][data.table::CJ(unique(n), 0:1)], index := 6]
 
-# index == 7 means the constant n recursion relation is used
+# index == 7 means the constant n recursion relation is used.
 .P[index > 6, index := 7]
 
-# Create explicit row number to improve calculation speed
+# Create explicit row number to improve calculation speed.
 .P[, rowNumb := 1:104]
 
 ###############################################################################
@@ -93,10 +99,11 @@ data.table::setkey(.P, n, m)
 
 # Store objects not directly accessible to user
 usethis::use_data(
-  .P
-  , .coefficientsWMM
-  , .f
-  , .e
-  , .A
-  , .a
+  .P,
+  .coefficientsWMM,
+  .f,
+  .e,
+  .A,
+  .a,
+  .radToDegree
 ,internal = TRUE, overwrite = TRUE)

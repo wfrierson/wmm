@@ -1,0 +1,14 @@
+Package: wmm
+Type: Package
+Title: R Implementation of World Magnetic Model
+Version: 0.1.0
+Authors@R: person("Will", "Frierson", email = "will.frierson@gmail.com",
+  role = c("aut", "cre"))
+Maintainer: Will Frierson <will.frierson@gmail.com>
+Description: Calculate magnetic field at a given location and time according to the World Magnetic Model.
+License: file LICENSE
+Encoding: UTF-8
+LazyData: true
+Imports:
+	data.table (>= 1.12.2)
+RoxygenNote: 6.1.1

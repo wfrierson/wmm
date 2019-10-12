@@ -4,11 +4,9 @@
 \alias{GetMagneticFieldWMM}
 \title{Calculate Expected Magnetic Field from WMM2015 (user-friendly)}
 \usage{
-GetMagneticFieldWMM(lon, lat, height, timeInYears,
-  wmmVersion = "derived")
+GetMagneticFieldWMM(lon, lat, height, time, wmmVersion = "derived")
 
-GetMagneticFieldWMM(lon, lat, height, timeInYears,
-  wmmVersion = "derived")
+GetMagneticFieldWMM(lon, lat, height, time, wmmVersion = "derived")
 }
 \arguments{
 \item{lon}{GPS longitude}
@@ -17,6 +15,8 @@ GetMagneticFieldWMM(lon, lat, height, timeInYears,
 
 \item{height}{GPS height in meters above ellipsoid}
 
+\item{time}{Annualized date time. E.g., 2015-02-01 = (2015 + 32/365) = 2015.088}
+
 \item{timeInYears}{Annualized date time. E.g., 2015-02-01 = (2015 + 32/365) = 2015.088}
 
 \item{lon}{GPS longitude}
@@ -24,8 +24,6 @@ GetMagneticFieldWMM(lon, lat, height, timeInYears,
 \item{lat}{GPS latitude, geodetic}
 
 \item{height}{GPS height in meters above ellipsoid}
-
-\item{timeInYears}{Annualized date time. E.g., 2015-02-01 = (2015 + 32/365) = 2015.088}
 }
 \value{
 Expected magnetic field from WMM2015 expressed as a vector, \eqn{m_{\lambda_t,\varphi_t,h_t,t}^{WMM}}{m_wmm(lambda_t, phi_t, h_t, t)}
@@ -36,11 +34,8 @@ Expected magnetic field from WMM2015 expressed as a vector, \eqn{m_{\lambda_t,\v
 Convenience function that takes in geodetic GPS location and annualized time, and returns the expected magnetic field from WMM2015.
 This is a user-friendly version of \code{magField_WMM}.
 
-Convenience function that takes in geodetic GPS location and annualized time, and returns the expected magnetic field from WMM2015.
-This is a user-friendly version of \code{magField_WMM}.
+Function that takes in geodetic GPS location and annualized time, and returns the expected magnetic field from WMM.
 }
 \seealso{
-\code{\link{magField_WMM}}, \code{\link{getDeclinationWMM}}
-
 \code{\link{magField_WMM}}, \code{\link{getDeclinationWMM}}
 }

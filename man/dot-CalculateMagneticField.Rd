@@ -4,10 +4,10 @@
 \alias{.CalculateMagneticField}
 \title{Calculate Expected Magnetic Field from WMM2015}
 \usage{
-.CalculateMagneticField(lon, latGD, latGC, radius, timeInYears,
+.CalculateMagneticField(lon, latGD, latGC, radius, time,
   highestDegree = 12, wmmVersion = "derived")
 
-.CalculateMagneticField(lon, latGD, latGC, radius, timeInYears,
+.CalculateMagneticField(lon, latGD, latGC, radius, time,
   highestDegree = 12, wmmVersion = "derived")
 }
 \arguments{
@@ -19,9 +19,11 @@
 
 \item{radius}{Radius of curvature of prime vertical at given geodetic latitude}
 
-\item{timeInYears}{Annualized date time. E.g., 2015-02-01 = (2015 + 32/365) = 2015.088}
+\item{time}{Annualized date time. E.g., 2015-02-01 = (2015 + 32/365) = 2015.088}
 
 \item{highestDegree}{Highest degree used to compute the WMM magnetic field. Note: This is a diagnostic. \code{highestDegree} should always be 12.}
+
+\item{timeInYears}{Annualized date time. E.g., 2015-02-01 = (2015 + 32/365) = 2015.088}
 
 \item{lon}{GPS longitude}
 
@@ -30,8 +32,6 @@
 \item{latGC}{GPS latitude, geocentric}
 
 \item{radius}{Radius of curvature of prime vertical at given geodetic latitude}
-
-\item{timeInYears}{Annualized date time. E.g., 2015-02-01 = (2015 + 32/365) = 2015.088}
 
 \item{highestDegree}{Highest degree used to compute the WMM magnetic field. Note: This is a diagnostic. \code{highestDegree} should always be 12.}
 }
@@ -77,12 +77,13 @@ height <- 1e5
 
 geocentric <- .ConvertGeodeticToGeocentricGPS(latGD, height)
 
-magField_WMM(
-    lon = lon
-    , latGD = latGD
-    , latGC = geocentric[['latitude_GC']][1]
-    , radius = geocentric[['radius_GC']][1]
-    , timeInYears = 2017.5
+.CalculateMagneticField(
+    lon = lon,
+    latGD = latGD,
+    latGC = geocentric[['latitude_GC']][1],
+    radius = geocentric[['radius_GC']][1],
+    time = 2017.5,
+    wmmVersion = 'WMM2015'
 )
 
 ## Expected output
@@ -90,7 +91,7 @@ magField_WMM(
 # Y = 14808.84920 23104 nT
 # Z = -50163.01336 54779 nT
 
-## Output a/o 2017-10-03
+## Calculated Output
 # X = 5683.518 nT
 # Y = 14808.85 nT
 # Z = -50163.01 nT

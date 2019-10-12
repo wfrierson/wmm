@@ -9,33 +9,6 @@
 #' @param time Annualized date time. E.g., 2015-02-01 = (2015 + 32/365) = 2015.088
 #' @param highestDegree Highest degree used to compute the WMM magnetic field. Note: This is a diagnostic. \code{highestDegree} should always be 12.
 #' @return Expected magnetic field from WMM2015 expressed as a vector, \eqn{m_{\lambda_t,\varphi_t,h_t,t}^{WMM}}{m_wmm(lambda_t, phi_t, h_t, t)}
-#' @examples
-#' # This code reproduces the output of the numerical example described in WMM 2015
-#' lon <- 240
-#' latGD <- -80
-#' height <- 1e5
-#'
-#' geocentric <- .ConvertGeodeticToGeocentricGPS(latGD, height)
-#'
-#' .CalculateMagneticField(
-#'     lon = lon,
-#'     latGD = latGD,
-#'     latGC = geocentric[['latitude_GC']][1],
-#'     radius = geocentric[['radius_GC']][1],
-#'     time = 2017.5,
-#'     wmmVersion = 'WMM2015'
-#' )
-#'
-#' ## Expected output
-#' # X = 5683.51754 95763 nT
-#' # Y = 14808.84920 23104 nT
-#' # Z = -50163.01336 54779 nT
-#'
-#' ## Calculated Output
-#' # X = 5683.518 nT
-#' # Y = 14808.85 nT
-#' # Z = -50163.01 nT
-#' @seealso \code{\link{getMagneticFieldWMM}}
 #'
 #' @import data.table
 .CalculateMagneticField <- function(
@@ -131,13 +104,13 @@
 #' @return Expected magnetic field from WMM2015 expressed as a vector, \eqn{m_{\lambda_t,\varphi_t,h_t,t}^{WMM}}{m_wmm(lambda_t, phi_t, h_t, t)}
 #' @export
 #'
-#' @example
+#' @examples
 #' GetMagneticFieldWMM(
-#' lon = 240,
-#' lat = -80,
-#' height = 1e5,
-#' time = 2017.5,
-#' wmmVersion = 'WMM2015'
+#'    lon = 240,
+#'    lat = -80,
+#'    height = 1e5,
+#'    time = 2017.5,
+#'    wmmVersion = 'WMM2015'
 #' )
 #'
 #' ## Expected output

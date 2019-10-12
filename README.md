@@ -1,3 +1,7 @@
+<!-- badges: start -->
+[![Travis build status](https://travis-ci.org/wfrierson/wmm.svg?branch=master)](https://travis-ci.org/wfrierson/wmm)
+<!-- badges: end -->
+
 # wmm
 R implementation of World Magnetic Model. This is a work in progress.
 
@@ -25,7 +29,3 @@ NOAA Technical Report NESDIS/NGDC-1.
 Macmillian, S. and J. M. Quinn, 2000. 
 “The Derivation of the World Magnetic Model 2000,” 
 British Geological Survey Technical Report WM/00/17R.
-
-<!-- badges: start -->
-[![Travis build status](https://travis-ci.org/wfrierson/wmm.svg?branch=master)](https://travis-ci.org/wfrierson/wmm)
-<!-- badges: end -->

@@ -8,7 +8,6 @@
 #' @param wmmVersion
 #'
 #' @return vector of Gauss coefficients, \eqn{g_{n,m}(t)} and \eqn{h_{n,m}(t)}
-#' @seealso \code{\link{.CalculateGaussCoefH}}
 #'
 #' @import data.table
 .CalculateGaussCoef <- function(n, m, t, wmmVersion = 'derived') {

@@ -52,10 +52,6 @@
   return(output)
 }
 
-# Function that computes desired Associated Legendre Functions given sequence of (n, m) indices
-# Assumes P_seq is list with first element as vector of nDegree indices and second as vector of mOrder indices
-# THIS FUNCTION IS BY REFERENCE AND SO INPUT DT WILL BE MODIFIED (since data.tables are by reference)
-
 #' Compute Associated Legendre Functions Given Sequence of (degree, order) Indices
 #'
 #' Procedure that recursively computes associated Legendre function, \eqn{P_{n,m}(\mu)}{P_{n,m}(mu)}, given a sequence of (degree, order) indices and function argument \eqn{\mu}{mu}.

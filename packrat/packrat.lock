@@ -1,6 +1,6 @@
 PackratFormat: 1.4
 PackratVersion: 0.5.0
-RVersion: 3.5.3
+RVersion: 3.6.1
 Repos: CRAN=https://mran.microsoft.com/snapshot/2019-04-15
 
 Package: R6
@@ -29,6 +29,11 @@ Source: CRAN
 Version: 1.1.4
 Hash: e88df919a68845e664e019570e2251b6
 
+Package: brew
+Source: CRAN
+Version: 1.0-6
+Hash: 931f9972deae0f205e1c78a51f33149b
+
 Package: callr
 Source: CRAN
 Version: 3.2.0
@@ -50,6 +55,11 @@ Package: clisymbols
 Source: CRAN
 Version: 1.2.0
 Hash: a76a309884277a4fd8a5d741965fbef5
+
+Package: commonmark
+Source: CRAN
+Version: 1.7
+Hash: 77f4ba718e2bad1877ef26e48cf8fa43
 
 Package: crayon
 Source: CRAN
@@ -162,6 +172,11 @@ Version: 1.0.2
 Hash: 41eb2db35be61f6f9e8864cf87a1ecb0
 Requires: desc, pkgbuild, rlang, rprojroot, rstudioapi, withr
 
+Package: praise
+Source: CRAN
+Version: 1.0.0
+Hash: 77da8f1df873a4b91e5c4a68fe2fb1b6
+
 Package: prettyunits
 Source: CRAN
 Version: 1.0.2
@@ -202,6 +217,13 @@ Source: CRAN
 Version: 0.3.4
 Hash: 6a5220d1a973463418286038095d8c0b
 
+Package: roxygen2
+Source: CRAN
+Version: 6.1.1
+Hash: 17e7d5f731ad04292f1b8b616c83318b
+Requires: R6, Rcpp, brew, commonmark, desc, digest, pkgload, purrr,
+    stringi, stringr, xml2
+
 Package: rprojroot
 Source: CRAN
 Version: 1.3-2
@@ -219,10 +241,27 @@ Version: 1.1.1
 Hash: 9e50c8458e611f166ba702277cbb5096
 Requires: cli, withr
 
+Package: stringi
+Source: CRAN
+Version: 1.4.3
+Hash: ed2a82fc7cc668c1345223d938cdfaf2
+
+Package: stringr
+Source: CRAN
+Version: 1.4.0
+Hash: 67da32dbb2a7a16f2ef124336358e54a
+Requires: glue, magrittr, stringi
+
 Package: sys
 Source: CRAN
 Version: 3.1
 Hash: dc2a997b1b9a2d3f9c234491153cb951
+
+Package: testthat
+Source: CRAN
+Version: 2.0.1
+Hash: 777eb6e94f5a62bf6320fecf0175bbbb
+Requires: R6, cli, crayon, digest, magrittr, praise, rlang, withr
 
 Package: usethis
 Source: CRAN
@@ -240,6 +279,12 @@ Package: withr
 Source: CRAN
 Version: 2.1.2
 Hash: d534108bcd5f34ec73e9eb523751ba20
+
+Package: xml2
+Source: CRAN
+Version: 1.2.0
+Hash: 6e643a368e9748966b96332eaa631411
+Requires: Rcpp
 
 Package: xopen
 Source: CRAN

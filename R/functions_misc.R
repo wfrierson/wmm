@@ -30,13 +30,10 @@
   return(output)
 }
 
-#' Title
+#' Check if given time is consistent with available WMM versions
 #'
+#' @param t Annualized date time. E.g., 2015-02-01 = (2015 + 32/365) = 2015.088
 #' @param wmmVersion
-#'
-#' @return
-#'
-#' @examples
 .CheckVersionWMM <- function(t, wmmVersion) {
   if(wmmVersion != 'derived') {
     # Get what WMM versions are compatible with the input time

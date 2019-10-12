@@ -56,6 +56,10 @@
   yGeodetic <- yGeocentric
   zGeodetic <- xGeocentric * sinDeltLat + zGeocentric * cosDeltLat
 
-  output <- c(xGeodetic, yGeodetic, zGeodetic)
+  output <- list(
+    'X' = xGeodetic,
+    'Y' = yGeodetic,
+    'Z' = zGeodetic
+  )
   return(output)
 }

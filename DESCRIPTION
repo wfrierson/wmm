@@ -12,3 +12,5 @@ LazyData: true
 Imports:
 	data.table (>= 1.12.2)
 RoxygenNote: 6.1.1
+Suggests:
+  testthat (>= 2.0.1)

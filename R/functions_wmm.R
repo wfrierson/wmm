@@ -120,18 +120,35 @@
   return(output)
 }
 
-#' Calculate Expected Magnetic Field from WMM2015 (user-friendly)
+#' Calculate Expected Magnetic Field from WMM
 #'
-#' Convenience function that takes in geodetic GPS location and annualized time, and returns the expected magnetic field from WMM2015.
-#' This is a user-friendly version of \code{magField_WMM}.
+#' Function that takes in geodetic GPS location and annualized time, and returns the expected magnetic field from WMM.
 #'
 #' @param lon GPS longitude
 #' @param lat GPS latitude, geodetic
 #' @param height GPS height in meters above ellipsoid
 #' @param time Annualized date time. E.g., 2015-02-01 = (2015 + 32/365) = 2015.088
 #' @return Expected magnetic field from WMM2015 expressed as a vector, \eqn{m_{\lambda_t,\varphi_t,h_t,t}^{WMM}}{m_wmm(lambda_t, phi_t, h_t, t)}
-#' @seealso \code{\link{magField_WMM}}, \code{\link{getDeclinationWMM}}
 #' @export
+#'
+#' @example
+#' GetMagneticFieldWMM(
+#' lon = 240,
+#' lat = -80,
+#' height = 1e5,
+#' time = 2017.5,
+#' wmmVersion = 'WMM2015'
+#' )
+#'
+#' ## Expected output
+#' # X = 5683.51754 95763 nT
+#' # Y = 14808.84920 23104 nT
+#' # Z = -50163.01336 54779 nT
+#'
+#' ## Calculated Output
+#' # X = 5683.518 nT
+#' # Y = 14808.85 nT
+#' # Z = -50163.01 nT
 GetMagneticFieldWMM <- function(
   lon,
   lat,

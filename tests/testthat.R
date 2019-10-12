@@ -1,3 +1,3 @@
 library(testthat)
 library(data.table)
-test_check('wmm')
+testthat::test_check('wmm')

@@ -62,7 +62,8 @@
       output <- data.table::fread(
         path,
         sep = '|',
-        header = TRUE
+        header = TRUE,
+        colClasses = rep('numeric', 6)
       )[
         , version := (versionWMM)
       ]

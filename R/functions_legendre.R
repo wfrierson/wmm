@@ -24,6 +24,10 @@
   Pm_1 = NULL,
   Pm_2 = NULL
 ) {
+  # NULLing out data.table-related names before using them to make
+  # devtools::check() & CRAN happy
+  J <- NULL
+
   # Rename degree and order to avoid using the same name fields in
   # .kLegendreIndices.
   nDegree <- n
@@ -62,6 +66,10 @@
 #'
 #' @import data.table
 .RunLegendreProcedure <- function(legendreTable, legendreSequence, mu) {
+  # NULLing out data.table-related names before using them to make
+  # devtools::check() & CRAN happy
+  J <- NULL
+
   invisible(lapply(
     # The following vector is equivalent to code below, which is constant:
     # seq_along(legendreSequence[['n']])

@@ -2,9 +2,7 @@
 #'
 #' @param t Annualized date time. E.g., 2015-02-01 = (2015 + 32/365) = 2015.088
 #'
-#' @return
-#'
-#' @examples
+#' @return List of reference year and compatible WMM versions inferred from \code{time}.
 .DeriveVersionInfo <- function(t) {
   output <- if(t >= 2020) {
     stop('Time value not supported in current version of wmm package.')
@@ -33,7 +31,7 @@
 #' Check if given time is consistent with available WMM versions
 #'
 #' @param t Annualized date time. E.g., 2015-02-01 = (2015 + 32/365) = 2015.088
-#' @param wmmVersion
+#' @param wmmVersion String representing WMM version to use. Must be consistent with \code{time} and one of the following: 'derived', 'WMM2000', 'WMM2005', 'WMM2010', 'WMM2015', 'WMM2015v2'.
 .CheckVersionWMM <- function(t, wmmVersion) {
   if(wmmVersion != 'derived') {
     # Get what WMM versions are compatible with the input time

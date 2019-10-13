@@ -2,16 +2,15 @@
 % Please edit documentation in R/functions_misc.R
 \name{.CheckVersionWMM}
 \alias{.CheckVersionWMM}
-\title{Title}
+\title{Check if given time is consistent with available WMM versions}
 \usage{
 .CheckVersionWMM(t, wmmVersion)
 }
 \arguments{
-\item{wmmVersion}{}
-}
-\value{
+\item{t}{Annualized date time. E.g., 2015-02-01 = (2015 + 32/365) = 2015.088}
 
+\item{wmmVersion}{String representing WMM version to use. Must be consistent with \code{time} and one of the following: 'derived', 'WMM2000', 'WMM2005', 'WMM2010', 'WMM2015', 'WMM2015v2'.}
 }
 \description{
-Title
+Check if given time is consistent with available WMM versions
 }

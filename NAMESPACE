@@ -2,3 +2,4 @@
 
 export(GetMagneticFieldWMM)
 import(data.table)
+importFrom(utils,tail)

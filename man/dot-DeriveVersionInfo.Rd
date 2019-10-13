@@ -10,7 +10,7 @@
 \item{t}{Annualized date time. E.g., 2015-02-01 = (2015 + 32/365) = 2015.088}
 }
 \value{
-
+List of reference year and compatible WMM versions inferred from \code{time}.
 }
 \description{
 Derive WMM version based on given time

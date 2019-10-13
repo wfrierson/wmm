@@ -59,6 +59,10 @@ British Geological Survey Technical Report WM/00/17R.
 
 # Repo Layout
 
+The project has the following structure:
+
+```
+wmm/
 ├── .gitignore
 ├── .Rbuildignore
 ├── .Rprofile
@@ -69,11 +73,11 @@ British Geological Survey Technical Report WM/00/17R.
 ├── README.md
 ├── wmm.Rproj
 │   
-├─── data-raw
+├─── data-raw/
 │   |── creatingSysData.R
 │       
-├───inst
-│   └── extdata
+├───inst/
+│   └── extdata/
 │       |── WMM2000.csv
 │       |── WMM2005.csv
 │       |── WMM2010.csv
@@ -81,7 +85,7 @@ British Geological Survey Technical Report WM/00/17R.
 │       |── WMM2015v2.csv
 │       |── WMMTestValues.csv
 │           
-├── man
+├── man/
 │   |── dot-CalculateGaussCoef.Rd
 │   |── dot-CalculateMagneticField.Rd
 │   |── dot-CalculateRadiusCurvature.Rd
@@ -93,7 +97,7 @@ British Geological Survey Technical Report WM/00/17R.
 │   |── dot-RunLegendreProcedure.Rd
 │   |── GetMagneticFieldWMM.Rd
 │               
-├── R
+├── R/
 │   |── functions_coefficients.R
 │   |── functions_geocoordinates.R
 │   |── functions_legendre.R
@@ -101,8 +105,9 @@ British Geological Survey Technical Report WM/00/17R.
 │   |── functions_wmm.R
 │   |── sysdata.rda
 │       
-└── tests
+└── tests/
     │── testthat.R
     │   
-    └── testthat
+    └── testthat/
         |── testWMM.R
+```

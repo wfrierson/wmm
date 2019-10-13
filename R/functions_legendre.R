@@ -103,3 +103,29 @@
     }
   ))
 }
+
+#' Calculate Schmidt semi-normalized Legendre function
+#'
+#' @param legendreTable \code{data.table} modified by \code{.RunLegendreProcedure}
+.CalculateSchmidtLegendre <- function(legendreTable) {
+  legendreTable[
+    , P_Schmidt := ifelse(
+      m == 0,
+      P,
+      sqrt(2 * factorial(n - m) / factorial(n + m)) * P
+    )
+  ]
+}
+
+#' Calculate mu-derivative of Schmidt semi-normalized Legendre function
+#'
+#' @param legendreTable \code{data.table} modified by \code{.CalculateSchmidtLegendre}
+#' @param mu Function argument to \eqn{P_{n,m}(\mu)}{P_{n,m}(mu)}
+.CalculateSchmidtLegendreDerivative <- function(legendreTable, mu) {
+  legendreTable[
+    , P_Schmidt_muDeriv := (
+      (n + 1) * mu * P_Schmidt -
+        sqrt((n + 1)^2 - m^2) * data.table::shift(P_Schmidt, type = 'lead')
+    ) / (1 - mu^2)
+  ]
+}

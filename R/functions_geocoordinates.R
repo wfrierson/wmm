@@ -63,3 +63,27 @@
   )
   return(output)
 }
+
+#' Calculate summand of geocentric field component
+#'
+#' @param legendreTable \code{data.table} modified by \code{.CalculateSchmidtLegendreDerivative}
+#' @param radius Radius of curvature of prime vertical at given geodetic latitude
+#' @param lon GPS longitude
+#' @param latGC GPS latitude, geocentric
+.CalculateGeocentricFieldSummand <- function(
+  legendreTable,
+  radius,
+  lon,
+  latGC
+) {
+  legendreTable[
+    , `:=` (
+      xGeocentric = -((.kGeomagneticRadius / radius) ^ (n + 2)) *
+        (g * cos(m * lon) + h * sin(m * lon)) * P_Schmidt_muDeriv * cos(latGC),
+      yGeocentric = ((.kGeomagneticRadius / radius) ^ (n + 2)) * m *
+        (g * sin(m * lon) - h * cos(m * lon)) * P_Schmidt / cos(latGC),
+      zGeocentric = -(n + 1) * ((.kGeomagneticRadius / radius) ^ (n + 2)) *
+        (g * cos(m * lon) + h * sin(m * lon)) * P_Schmidt
+    )
+  ]
+}

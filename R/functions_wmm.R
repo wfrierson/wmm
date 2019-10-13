@@ -52,20 +52,10 @@
   .RunLegendreProcedure(legendreTable, legendreSequence, mu)
 
   # Derive other legendre functions
-  legendreTable[
-    , P_Schmidt := ifelse(
-      m == 0,
-      P,
-      sqrt(2 * factorial(n - m) / factorial(n + m)) * P
-    )
-  ]
+  .CalculateSchmidtLegendre(legendreTable)
   data.table::setorder(legendreTable, m, n)
-  legendreTable[
-    , P_Schmidt_muDeriv := (
-      (n + 1) * mu * P_Schmidt -
-        sqrt((n + 1)^2 - m^2) * data.table::shift(P_Schmidt, type = 'lead')
-    ) / (1 - mu^2)
-  ]
+
+  .CalculateSchmidtLegendreDerivative(legendreTable, mu)
   data.table::setkey(legendreTable, n, m)
 
   # Lookup Gauss coefficients
@@ -74,19 +64,14 @@
   ]
 
   # Compute geocentric WMM summand values (i.e., to be summed)
-  legendreTable[
-    , xGeocentric := -((.kGeomagneticRadius / radius) ^ (n + 2)) *
-      (g * cos(m * lon) + h * sin(m * lon)) * P_Schmidt_muDeriv * cos(latGC)
-  ]
-  legendreTable[
-    , yGeocentric := ((.kGeomagneticRadius / radius) ^ (n + 2)) * m *
-      (g * sin(m * lon) - h * cos(m * lon)) * P_Schmidt / cos(latGC)
-  ]
-  legendreTable[
-    , zGeocentric := -(n + 1) * ((.kGeomagneticRadius / radius) ^ (n + 2)) *
-      (g * cos(m * lon) + h * sin(m * lon)) * P_Schmidt
-  ]
+  .CalculateGeocentricFieldSummand(
+    legendreTable,
+    radius,
+    lon,
+    latGC
+  )
 
+  # Sum of geocentric values for relevant degrees
   legendreTable <- legendreTable[!J(13)][
     J(1:highestDegree)
     ,.(
@@ -95,6 +80,8 @@
       , zGeocentric = sum(zGeocentric)
     )
   ]
+
+  # Package the geocentric sums with deltaLatitude for downstream inputs
   geocentricField <- list(
     legendreTable$xGeocentric,
     legendreTable$yGeocentric,
@@ -102,6 +89,7 @@
     deltaLatitude
   )
 
+  # Convert predicted magnetic field from geocentric to geodetic coordinates
   output <- do.call(
     .ConvertGeocentricToGeodeticFieldComponents,
     geocentricField

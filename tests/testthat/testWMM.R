@@ -20,10 +20,15 @@ testData <- data.table::fread(
 ]
 
 # Define character vectors used for unit tests, which may be changed
-keyField <- c('testID', 'wmmVersion')
-testFields <- c('x', 'y', 'z')
+keyFields <- c('testID', 'wmmVersion')
+vectorFields <- c('x', 'y', 'z')
+vectorDotFields <- paste0(vectorFields, 'Dot')
+testFields <- c(
+  vectorFields,
+  vectorDotFields
+)
 calculatedFields <- paste0(testFields, 'Calculated')
-testthatFields <- c(keyField, testFields)
+testthatFields <- c(keyFields, testFields)
 
 # Calculate magnetic field values
 testData[
@@ -39,7 +44,7 @@ testData[
 
 # Copy table to help with set of test fields
 calculatedData <- data.table::copy(testData)[
-  , mget(c(keyField, calculatedFields))
+  , mget(c(keyFields, calculatedFields))
 ]
 data.table::setnames(
   calculatedData,
@@ -48,16 +53,19 @@ data.table::setnames(
 )
 
 # Perform unit tests
-testthat::context('Testing WMM benchmarks...')
+testthat::context('Testing WMM main field benchmarks...')
 testthat::test_that('WMM Test Values, Not 2005', {
   expect_true(
     all.equal(
       testData[
         wmmVersion != ' WMM2005'
-        , mget(testthatFields)
+        , mget(vectorFields)
       ],
-      calculatedData[wmmVersion != ' WMM2005'],
-      tolerance = 5e-4
+      calculatedData[
+        wmmVersion != ' WMM2005'
+        , mget(vectorFields)
+      ],
+      tolerance = 2.5e-5
     )
   )
 })
@@ -67,9 +75,12 @@ testthat::test_that('WMM Test Values, 2005 only', {
     all.equal(
       testData[
         wmmVersion == ' WMM2005'
-        , mget(testthatFields)
+        , mget(vectorFields)
       ],
-      calculatedData[wmmVersion == ' WMM2005'],
+      calculatedData[
+        wmmVersion == ' WMM2005'
+        , mget(vectorFields)
+      ],
       # Setting tolerance to 0.5 due to small precision provided in 2005
       # test values.
       tolerance = 5e-1
@@ -77,3 +88,19 @@ testthat::test_that('WMM Test Values, 2005 only', {
   )
 })
 
+testthat::context('Testing WMM secular variation field benchmarks...')
+testthat::test_that('WMM Test Values (secular)', {
+  expect_true(
+    all.equal(
+      testData[
+        , mget(vectorDotFields)
+        ],
+      calculatedData[
+        , mget(vectorDotFields)
+        ],
+      # Setting tolerance to 0.007 due to small precision provided secular
+      # variation test values.
+      tolerance = 7e-3
+    )
+  )
+})

@@ -88,17 +88,6 @@ wmm/
 │       |── WMMTestValues.csv
 │           
 ├── man/
-│   |── dot-CalculateGaussCoef.Rd
-│   |── dot-CalculateMagneticField.Rd
-│   |── dot-CalculateRadiusCurvature.Rd
-│   |── dot-CalculateRecursiveLegendre.Rd
-│   |── dot-CheckVersionWMM.Rd
-│   |── dot-ConvertGeocentricToGeodeticFieldComponents.Rd
-│   |── dot-ConvertGeodeticToGeocentricGPS.Rd
-│   |── dot-DeriveVersionInfo.Rd
-│   |── dot-RunLegendreProcedure.Rd
-│   |── GetMagneticFieldWMM.Rd
-│               
 ├── R/
 │   |── functions_coefficients.R
 │   |── functions_geocoordinates.R

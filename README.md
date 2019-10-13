@@ -56,3 +56,53 @@ NOAA Technical Report NESDIS/NGDC-1.
 5. Macmillian, S. and J. M. Quinn, 2000. 
 “The Derivation of the World Magnetic Model 2000,” 
 British Geological Survey Technical Report WM/00/17R.
+
+# Repo Layout
+
+├── .gitignore
+├── .Rbuildignore
+├── .Rprofile
+├── .travis.yml
+├── DESCRIPTION
+├── LICENSE
+├── NAMESPACE
+├── README.md
+├── wmm.Rproj
+│   
+├─── data-raw
+│   |── creatingSysData.R
+│       
+├───inst
+│   └── extdata
+│       |── WMM2000.csv
+│       |── WMM2005.csv
+│       |── WMM2010.csv
+│       |── WMM2015.csv
+│       |── WMM2015v2.csv
+│       |── WMMTestValues.csv
+│           
+├── man
+│   |── dot-CalculateGaussCoef.Rd
+│   |── dot-CalculateMagneticField.Rd
+│   |── dot-CalculateRadiusCurvature.Rd
+│   |── dot-CalculateRecursiveLegendre.Rd
+│   |── dot-CheckVersionWMM.Rd
+│   |── dot-ConvertGeocentricToGeodeticFieldComponents.Rd
+│   |── dot-ConvertGeodeticToGeocentricGPS.Rd
+│   |── dot-DeriveVersionInfo.Rd
+│   |── dot-RunLegendreProcedure.Rd
+│   |── GetMagneticFieldWMM.Rd
+│               
+├── R
+│   |── functions_coefficients.R
+│   |── functions_geocoordinates.R
+│   |── functions_legendre.R
+│   |── functions_misc.R
+│   |── functions_wmm.R
+│   |── sysdata.rda
+│       
+└── tests
+    │── testthat.R
+    │   
+    └── testthat
+        |── testWMM.R

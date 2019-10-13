@@ -46,7 +46,9 @@
 
   output <- list(
     'g' = coefG,
-    'h' = coefH
+    'h' = coefH,
+    'gDot0' = gDot0,
+    'hDot0' = hDot0
   )
 
   return(output)

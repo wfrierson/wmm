@@ -9,6 +9,8 @@ Description: Calculate magnetic field at a given location and time according to 
 License: file LICENSE
 Encoding: UTF-8
 LazyData: true
+Depends: 
+  R (>= 2.10)
 Imports:
 	data.table (>= 1.12.2)
 RoxygenNote: 6.1.1

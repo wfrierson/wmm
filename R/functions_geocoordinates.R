@@ -85,15 +85,27 @@
   P_Schmidt_muDeriv <- NULL
   g <- NULL
   h <- NULL
+  gDot0 <- NULL
+  hDot0 <- NULL
 
   legendreTable[
     , `:=` (
+      # Summands of main field vector components
       xGeocentric = -((.kGeomagneticRadius / radius) ^ (n + 2)) *
         (g * cos(m * lon) + h * sin(m * lon)) * P_Schmidt_muDeriv * cos(latGC),
       yGeocentric = ((.kGeomagneticRadius / radius) ^ (n + 2)) * m *
         (g * sin(m * lon) - h * cos(m * lon)) * P_Schmidt / cos(latGC),
       zGeocentric = -(n + 1) * ((.kGeomagneticRadius / radius) ^ (n + 2)) *
-        (g * cos(m * lon) + h * sin(m * lon)) * P_Schmidt
+        (g * cos(m * lon) + h * sin(m * lon)) * P_Schmidt,
+
+      # Summands of secular variation vector components
+      xDotGeocentric = -((.kGeomagneticRadius / radius) ^ (n + 2)) *
+        (gDot0 * cos(m * lon) + hDot0 * sin(m * lon)) * P_Schmidt_muDeriv *
+        cos(latGC),
+      yDotGeocentric = ((.kGeomagneticRadius / radius) ^ (n + 2)) * m *
+        (gDot0 * sin(m * lon) - hDot0 * cos(m * lon)) * P_Schmidt / cos(latGC),
+      zDotGeocentric = -(n + 1) * ((.kGeomagneticRadius / radius) ^ (n + 2)) *
+        (gDot0 * cos(m * lon) + hDot0 * sin(m * lon)) * P_Schmidt
     )
   ]
 }

@@ -76,6 +76,16 @@
   lon,
   latGC
 ) {
+  # NULLing out data.table-related names before using them to make
+  # devtools::check() & CRAN happy
+  n <- NULL
+  m <- NULL
+  P <- NULL
+  P_Schmidt <- NULL
+  P_Schmidt_muDeriv <- NULL
+  g <- NULL
+  h <- NULL
+
   legendreTable[
     , `:=` (
       xGeocentric = -((.kGeomagneticRadius / radius) ^ (n + 2)) *

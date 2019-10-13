@@ -108,6 +108,13 @@
 #'
 #' @param legendreTable \code{data.table} modified by \code{.RunLegendreProcedure}
 .CalculateSchmidtLegendre <- function(legendreTable) {
+  # NULLing out data.table-related names before using them to make
+  # devtools::check() & CRAN happy
+  n <- NULL
+  m <- NULL
+  P <- NULL
+  P_Schmidt <- NULL
+
   legendreTable[
     , P_Schmidt := ifelse(
       m == 0,
@@ -122,6 +129,13 @@
 #' @param legendreTable \code{data.table} modified by \code{.CalculateSchmidtLegendre}
 #' @param mu Function argument to \eqn{P_{n,m}(\mu)}{P_{n,m}(mu)}
 .CalculateSchmidtLegendreDerivative <- function(legendreTable, mu) {
+  # NULLing out data.table-related names before using them to make
+  # devtools::check() & CRAN happy
+  n <- NULL
+  m <- NULL
+  P_Schmidt <- NULL
+  P_Schmidt_muDeriv <- NULL
+
   legendreTable[
     , P_Schmidt_muDeriv := (
       (n + 1) * mu * P_Schmidt -

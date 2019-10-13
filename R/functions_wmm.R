@@ -60,7 +60,8 @@
 
   # Lookup Gauss coefficients
   legendreTable[
-    , c('g', 'h') := .CalculateGaussCoef(n, m, time, wmmVersion)
+    , c('g', 'h', 'gDot0', 'hDot0') :=
+      .CalculateGaussCoef(n, m, time, wmmVersion)
   ]
 
   # Compute geocentric WMM summand values (i.e., to be summed)
@@ -75,9 +76,12 @@
   legendreTable <- legendreTable[!J(13)][
     J(1:highestDegree)
     ,.(
-      xGeocentric = sum(xGeocentric)
-      , yGeocentric = sum(yGeocentric)
-      , zGeocentric = sum(zGeocentric)
+      xGeocentric = sum(xGeocentric),
+      yGeocentric = sum(yGeocentric),
+      zGeocentric = sum(zGeocentric),
+      xDotGeocentric = sum(xDotGeocentric),
+      yDotGeocentric = sum(yDotGeocentric),
+      zDotGeocentric = sum(zDotGeocentric)
     )
   ]
 
@@ -89,10 +93,32 @@
     deltaLatitude
   )
 
+  geocentricDotField <- list(
+    legendreTable$xDotGeocentric,
+    legendreTable$yDotGeocentric,
+    legendreTable$zDotGeocentric,
+    deltaLatitude
+  )
+
   # Convert predicted magnetic field from geocentric to geodetic coordinates
-  output <- do.call(
+  geodentricField <- do.call(
     .ConvertGeocentricToGeodeticFieldComponents,
     geocentricField
+  )
+
+  geodentricDotField <- do.call(
+    .ConvertGeocentricToGeodeticFieldComponents,
+    geocentricDotField
+  )
+
+  output <- union(
+    geodentricField,
+    geodentricDotField
+  )
+
+  names(output) <- c(
+    'x', 'y', 'z',
+    'xDot', 'yDot', 'zDot'
   )
 
   return(output)

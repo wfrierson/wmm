@@ -14,5 +14,5 @@
 \item{mu}{Function argument to \eqn{P_{n,m}(\mu)}{P_{n,m}(mu)}}
 }
 \description{
-Procedure that recursively computes associated Legendre function, \eqn{P_{n,m}(\mu)}{P_{n,m}(mu)}, given a sequence of (degree, order) indices and function argument \eqn{\mu}{mu}.
+Procedure that computes the associated Legendre function, \eqn{P_{n,m}(\mu)}{P_{n,m}(mu)}, given a sequence of (degree, order) indices and function argument \eqn{\mu}{mu}. This is computed via recursive relationships for Legendre functions.
 }

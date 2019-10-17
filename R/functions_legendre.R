@@ -58,7 +58,7 @@
 
 #' Compute Associated Legendre Functions Given Sequence of (degree, order) Indices
 #'
-#' Procedure that recursively computes associated Legendre function, \eqn{P_{n,m}(\mu)}{P_{n,m}(mu)}, given a sequence of (degree, order) indices and function argument \eqn{\mu}{mu}.
+#' Procedure that computes the associated Legendre function, \eqn{P_{n,m}(\mu)}{P_{n,m}(mu)}, given a sequence of (degree, order) indices and function argument \eqn{\mu}{mu}. This is computed via recursive relationships for Legendre functions.
 #'
 #' @param legendreTable copy of internal data.table \code{.kLegendreIndices} to store intermediate function values
 #' @param legendreSequence Sequence of (degree, order) indices contained in a list

@@ -5,16 +5,50 @@
 <!-- badges: end -->
 
 # wmm
-R implementation of World Magnetic Model (WMM). This is a work in progress.
+Unofficial R implementation of the World Magnetic Model (WMM). This is a work in progress.
 
-__Note__: I am not associated with those who built any version of WMM. Instead, I have recreated their algorithm for others to use in R.
+__Notes:__
+
+* I am not associated with those who built any version of WMM. Instead, I have recreated their algorithm for others to use in R. 
+
+* I understand there are official C and Fortran code to implement WMM. The purpose of this project is to program WMM in R to better understand the numerical procedure.
 
 # Usage
 
-Currently, the only exported function is GetMagneticFieldWMM, which returns the orthogonal vector components of the main magnetic field (in nT) as predicted by WMM.
+Currently, the only exported function is `GetMagneticFieldWMM`, which returns the orthogonal vector components of the main magnetic field (in nT) and secular variation field (in nT/yr) as predicted by WMM.
 
 Example usage: 
 
+1. Calculate expected magnetic field components at a benchmark location, mid 2017. Using the default value for WMM version, this will use the more recent, "out of cycle" coefficients from WMM2015v2 as opposed to the older WMM2015.
+``` r
+
+GetMagneticFieldWMM(
+  lon = 240,
+  lat = -80,
+  height = 1e5,
+  time = 2017.5
+)
+# $x
+# [1] 5674.898
+# 
+# $y
+# [1] 14793.08
+# 
+# $z
+# [1] -50179.48
+# 
+# $xDot
+# [1] 25.0788
+# 
+# $yDot
+# [1] 1.523768
+# 
+# $zDot
+# [1] 82.51838
+```
+
+2. Repeat the last calculation but use the older coefficients from WMM2015 that were replaced by WMM2015v2.
+``` r
 GetMagneticFieldWMM(
   lon = 240,
   lat = -80,
@@ -22,17 +56,24 @@ GetMagneticFieldWMM(
   time = 2017.5,
   wmmVersion = 'WMM2015'
 )
-
-Expected output:
-
-$X
-[1] 5683.518
-
-$Y
-[1] 14808.85
-
-$Z
-[1] -50163.01
+# $x
+# [1] 5683.518
+# 
+# $y
+# [1] 14808.85
+# 
+# $z
+# [1] -50163.01
+# 
+# $xDot
+# [1] 28.16496
+# 
+# $yDot
+# [1] 6.941152
+# 
+# $zDots
+# [1] 86.24356
+```
 
 # Citations
 
@@ -59,7 +100,7 @@ NOAA Technical Report NESDIS/NGDC-1.
 “The Derivation of the World Magnetic Model 2000,” 
 British Geological Survey Technical Report WM/00/17R.
 
-# Repo Layout
+# Project Layout
 
 The project has the following structure:
 

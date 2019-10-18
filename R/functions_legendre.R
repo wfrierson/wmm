@@ -8,10 +8,12 @@
 #' @param n Degree of associated Legendre function to compute
 #' @param m Order of associated Legendre function to compute
 #' @param mu Argument of associated Legendre function to compute
+#' @param index Index from \code{.kLegendreIndices} associated with \code{n} and \code{m}
 #' @param Pn_1 \eqn{P_{n-1,m}(\mu)}{P_{n-1,m}(mu)}
 #' @param Pn_2 \eqn{P_{n-2,m}(\mu)}{P_{n-2,m}(mu)}
 #' @param Pm_1 \eqn{P_{n,m-1}(\mu)}{P_{n,m-1}(mu)}
 #' @param Pm_2 \eqn{P_{n,m-2}(\mu)}{P_{n,m-2}(mu)}
+#'
 #' @return \eqn{P_{n,m}(\mu)}{P_{n,m}(mu)}, scalar
 #'
 #' @import data.table
@@ -19,6 +21,7 @@
   n,
   m,
   mu,
+  index,
   Pn_1 = NULL,
   Pn_2 = NULL,
   Pm_1 = NULL,
@@ -26,14 +29,14 @@
 ) {
   # NULLing out data.table-related names before using them to make
   # devtools::check() & CRAN happy
-  J <- NULL
+  # J <- NULL
 
   # Rename degree and order to avoid using the same name fields in
   # .kLegendreIndices.
-  nDegree <- n
-  mOrder <- m
+  # nDegree <- n
+  # mOrder <- m
 
-  index <- .kLegendreIndices[J(nDegree, mOrder)]$index
+  # index <- .kLegendreIndices[J(nDegree, mOrder)]$index
 
   output <- switch(
     index,
@@ -77,23 +80,24 @@
     function(x) {
       # Rename degree and order to avoid using the same name fields in
       # .kCoefficientsWMM.
-      nDegree <- legendreSequence[[1]][x]
-      mOrder <- legendreSequence[[2]][x]
+      nDegree <- legendreSequence[['n']][x]
+      mOrder <- legendreSequence[['m']][x]
       rowNumb <- legendreTable[J(nDegree, mOrder)]$rowNumb
+      index <- legendreTable[J(nDegree, mOrder)]$index
 
       legendreValue <- if(nDegree <= 2) {
         .CalculateRecursiveLegendre(
-          nDegree, mOrder, mu
+          nDegree, mOrder, mu, index
         )
       } else if(mOrder <= 1) {
         .CalculateRecursiveLegendre(
-          nDegree, mOrder, mu,
+          nDegree, mOrder, mu, index,
           Pn_1 = legendreTable[J(nDegree - 1, mOrder)]$P,
           Pn_2 = legendreTable[J(nDegree - 2, mOrder)]$P
         )
       } else {
         .CalculateRecursiveLegendre(
-          nDegree, mOrder, mu,
+          nDegree, mOrder, mu, index,
           Pm_1 = legendreTable[J(nDegree, mOrder - 1)]$P,
           Pm_2 = legendreTable[J(nDegree, mOrder - 2)]$P
         )

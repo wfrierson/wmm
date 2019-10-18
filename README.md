@@ -5,13 +5,9 @@
 <!-- badges: end -->
 
 # wmm
-Unofficial R implementation of the World Magnetic Model (WMM). This is a work in progress.
+Unofficial R implementation of the [World Magnetic Model](https://www.ngdc.noaa.gov/geomag/WMM/DoDWMM.shtml) (WMM). This is a work in progress.
 
-__Notes:__
-
-* I am not associated with those who built any version of WMM. Instead, I have recreated their algorithm for others to use in R. 
-
-* I understand there are official C and Fortran code to implement WMM. The purpose of this project is to program WMM in R to better understand the numerical procedure.
+The purpose of this project is to program WMM entirely in R to better understand the numerical procedure. For those that prefer a non-R solution, the authors of WMM provide free software to calculate magnetic field, which can be found [here](https://www.ngdc.noaa.gov/geomag/WMM/soft.shtml).
 
 # Usage
 

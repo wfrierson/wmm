@@ -4,7 +4,7 @@
 \alias{.CalculateRecursiveLegendre}
 \title{Run recursion to compute associated Legendre functions}
 \usage{
-.CalculateRecursiveLegendre(n, m, mu, Pn_1 = NULL, Pn_2 = NULL,
+.CalculateRecursiveLegendre(n, m, mu, index, Pn_1 = NULL, Pn_2 = NULL,
   Pm_1 = NULL, Pm_2 = NULL)
 }
 \arguments{
@@ -13,6 +13,8 @@
 \item{m}{Order of associated Legendre function to compute}
 
 \item{mu}{Argument of associated Legendre function to compute}
+
+\item{index}{Index from \code{.kLegendreIndices} associated with \code{n} and \code{m}}
 
 \item{Pn_1}{\eqn{P_{n-1,m}(\mu)}{P_{n-1,m}(mu)}}
 

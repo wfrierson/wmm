@@ -34,6 +34,9 @@
   xGeocentric <- NULL
   yGeocentric <- NULL
   zGeocentric <- NULL
+  xDotGeocentric <- NULL
+  yDotGeocentric <- NULL
+  zDotGeocentric <- NULL
   g <- NULL
   h <- NULL
 

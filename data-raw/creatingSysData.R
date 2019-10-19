@@ -89,30 +89,51 @@ data.table::setkey(
   n, m, version
 )
 
+# Partition data.table into list of data.tables split by WMM version.
+.kCoefficientsWMM <- split(.kCoefficientsWMM, by = 'version')
+
+# Restate each data.table as a matrix with indices (n, m) for each Gauss
+# coefficient
+.RestateGaussCoefficient <- function(coefName, coefTable = .kCoefficientsWMM) {
+  output <- lapply(
+    coefTable,
+    function(coefWMM)
+      as.matrix(
+        data.table::dcast(coefWMM, n ~ m, value.var = coefName)[
+          , -c('n')
+        ]
+      )
+  )
+
+  return(output)
+}
+
+.kCoefficientsWMMg <- .RestateGaussCoefficient('g')
+.kCoefficientsWMMh <- .RestateGaussCoefficient('h')
+.kCoefficientsWMMgDot <- .RestateGaussCoefficient('g_dot')
+.kCoefficientsWMMhDot <- .RestateGaussCoefficient('h_dot')
+
 # n is degree & m is order.
 # Note: nDegree = 13 needed to calculate P_Schmidt_muDeriv, even though only the
 # first 12 degrees are summed.
-.kLegendreIndices <- data.table::data.table(n = 1:13, key = "n")
-.kLegendreIndices <- .kLegendreIndices[
+.kLegendreTemplate <- data.table::data.table(n = 1:13)
+.kLegendreTemplate <- .kLegendreTemplate[
   , .(m = 0:n)
-  , by = eval(data.table::key(.kLegendreIndices))
-]
-data.table::setkey(.kLegendreIndices, n, m)
-
-# Define index used for recursion, see P_recursive for details.
-.kLegendreIndices[, index := .I]
-
-# index == 6 means the constant m recursion relation is used.
-.kLegendreIndices[
-  .kLegendreIndices[!J(0:2)][data.table::CJ(unique(n), 0:1)]
-  , index := 6
+  , by = n
 ]
 
-# index == 7 means the constant n recursion relation is used.
-.kLegendreIndices[index > 6, index := 7]
-
-# Create explicit row number to improve calculation speed.
-.kLegendreIndices[, rowNumb := 1:104]
+# Reshape .kLegendreTemplate and cast as matrix with indices (n, m) and values
+# equal to m. This will be used as a template to store computed Legendre values,
+# and so the values of order m are not important.
+#
+# Note: The column names are intentionally off from the column number in order
+# to be consistent with the Legendre indices. The column names will be used for
+# the order m.
+.kLegendreTemplate <- as.matrix(
+  data.table::dcast(.kLegendreTemplate, n ~ m, value.var = 'm')[
+    , -c('n')
+  ]
+)
 
 ###############################################################################
 # Index sequence to compute all needed associated legendre functions
@@ -131,13 +152,36 @@ data.table::setkey(.kLegendreIndices, n, m)
   )
 )
 
+# Define index used for recursion:
+#    Indices <= 5 mean the first 5 associated Legendre functions are used.
+#    Index = 6 means the constant m recursion relation is used.
+#    Index == 7 means the constant n recursion relation is used.
+.kLegendreSequence <- data.table::as.data.table(.kLegendreSequence)[
+  , index := ifelse(
+    n == 1 & m == 0, 1, ifelse(
+    n == 1 & m == 1, 2, ifelse(
+    n == 2 & m == 0, 3, ifelse(
+    n == 2 & m == 1, 4, ifelse(
+    n == 2 & m == 2, 5, ifelse(
+    n > 2 & m <= 1, 6, 7
+  ))))))
+]
+
+# Restate .kLegendreSequence back as list of vectors to use in downstream
+# loop, i.e., don't lookup values in data.table, just pull the needed values
+# in order of .kLegendreSequence.
+.kLegendreSequence <- as.list(.kLegendreSequence)
+
 ###############################################################################
 ## Save Objects
 
 # Store objects not directly accessible to user
 usethis::use_data(
-  .kLegendreIndices,
-  .kCoefficientsWMM,
+  .kLegendreTemplate,
+  .kCoefficientsWMMg,
+  .kCoefficientsWMMh,
+  .kCoefficientsWMMgDot,
+  .kCoefficientsWMMhDot,
   .kEccentricity,
   .kEarthSemimajorAxis,
   .kGeomagneticRadius,

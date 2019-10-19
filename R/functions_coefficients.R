@@ -12,36 +12,29 @@
 #' @import data.table
 #' @importFrom utils tail
 .CalculateGaussCoef <- function(n, m, t, wmmVersion = 'derived') {
-  # NULLing out data.table-related names before using them to make
-  # devtools::check() & CRAN happy
-  J <- NULL
-
+  # Check consistency of given time t and wmmVersion
   .CheckVersionWMM(t = t, wmmVersion = wmmVersion)
+
+  # Get WMM versions and reference year associated with given time t
   derivedVersionInfo <- .DeriveVersionInfo(t)
+
+  # Derive reference year
   t0 <- derivedVersionInfo[['year']]
 
   if(wmmVersion == 'derived') {
-    # Assume last value of 'version' output from .DeriveVersionInfo is the most
+    # Assume first value of 'version' output from .DeriveVersionInfo is the most
     # appropriate.
     # E.g., if the derived reference year is 2015, use the out-of-cycle version.
-    wmmVersion <- tail(derivedVersionInfo[['version']], 1)
+    wmmVersion <- derivedVersionInfo[['version']][1]
   }
 
-  # Rename degree and order to avoid using the same name fields in
-  # .kCoefficientsWMM.
-  nDegree <- n
-  mOrder <- m
-  coefficientsWMM <- data.table::copy(
-    .kCoefficientsWMM[J(nDegree, mOrder, wmmVersion)]
-  )
-
   # Get g coefficient
-  g0 <- coefficientsWMM$g
-  gDot0 <- coefficientsWMM$g_dot
+  g0 <- .kCoefficientsWMMg[[wmmVersion]][n, as.character(m)]
+  gDot0 <- .kCoefficientsWMMgDot[[wmmVersion]][n, as.character(m)]
   coefG <- g0 + (t - t0) * gDot0
 
-  h0 <- coefficientsWMM$h
-  hDot0 <- coefficientsWMM$h_dot
+  h0 <- .kCoefficientsWMMh[[wmmVersion]][n, as.character(m)]
+  hDot0 <- .kCoefficientsWMMhDot[[wmmVersion]][n, as.character(m)]
   coefH <- h0 + (t - t0) * hDot0
 
   output <- list(

@@ -27,17 +27,6 @@
   Pm_1 = NULL,
   Pm_2 = NULL
 ) {
-  # NULLing out data.table-related names before using them to make
-  # devtools::check() & CRAN happy
-  # J <- NULL
-
-  # Rename degree and order to avoid using the same name fields in
-  # .kLegendreIndices.
-  # nDegree <- n
-  # mOrder <- m
-
-  # index <- .kLegendreIndices[J(nDegree, mOrder)]$index
-
   output <- switch(
     index,
     # n == 1 & m == 0, index == 1
@@ -63,49 +52,52 @@
 #'
 #' Procedure that computes the associated Legendre function, \eqn{P_{n,m}(\mu)}{P_{n,m}(mu)}, given a sequence of (degree, order) indices and function argument \eqn{\mu}{mu}. This is computed via recursive relationships for Legendre functions.
 #'
-#' @param legendreTable copy of internal data.table \code{.kLegendreIndices} to store intermediate function values
-#' @param legendreSequence Sequence of (degree, order) indices contained in a list
 #' @param mu Function argument to \eqn{P_{n,m}(\mu)}{P_{n,m}(mu)}
 #'
 #' @import data.table
-.RunLegendreProcedure <- function(legendreTable, legendreSequence, mu) {
-  # NULLing out data.table-related names before using them to make
-  # devtools::check() & CRAN happy
-  J <- NULL
+.RunLegendreProcedure <- function(mu) {
+  legendreP <- rlang::duplicate(.kLegendreTemplate)
 
-  invisible(lapply(
-    # The following vector is equivalent to code below, which is constant:
-    # seq_along(legendreSequence[['n']])
-    1:103,
-    function(x) {
-      # Rename degree and order to avoid using the same name fields in
-      # .kCoefficientsWMM.
-      nDegree <- legendreSequence[['n']][x]
-      mOrder <- legendreSequence[['m']][x]
-      rowNumb <- legendreTable[J(nDegree, mOrder)]$rowNumb
-      index <- legendreTable[J(nDegree, mOrder)]$index
+  # The following vector is equivalent to code below, which is constant:
+  # seq_along(legendreSequence[['n']])
+  for(x in 1:103) {
+    nDegree <- .kLegendreSequence[['n']][x]
+    mOrder <- .kLegendreSequence[['m']][x]
+    index <- .kLegendreSequence[['index']][x]
 
-      legendreValue <- if(nDegree <= 2) {
-        .CalculateRecursiveLegendre(
-          nDegree, mOrder, mu, index
-        )
-      } else if(mOrder <= 1) {
-        .CalculateRecursiveLegendre(
-          nDegree, mOrder, mu, index,
-          Pn_1 = legendreTable[J(nDegree - 1, mOrder)]$P,
-          Pn_2 = legendreTable[J(nDegree - 2, mOrder)]$P
-        )
-      } else {
-        .CalculateRecursiveLegendre(
-          nDegree, mOrder, mu, index,
-          Pm_1 = legendreTable[J(nDegree, mOrder - 1)]$P,
-          Pm_2 = legendreTable[J(nDegree, mOrder - 2)]$P
-        )
-      }
+    legendreValue <- .CalculateRecursiveLegendre(
+      nDegree, mOrder, mu, index,
+      Pn_1 = legendreP[(nDegree - 1), as.character(mOrder)],
+      Pn_2 = legendreP[(nDegree - 2), as.character(mOrder)],
+      Pm_1 = legendreP[nDegree, as.character(mOrder - 1)],
+      Pm_2 = legendreP[nDegree, as.character(mOrder - 2)]
+    )
 
-      data.table::set(legendreTable, rowNumb, 'P', legendreValue)
-    }
-  ))
+    legendreP[nDegree, as.character(mOrder)] <- legendreValue
+  }
+
+  # Reshape matrix of computed Legendre values back into long data.table
+  # with keys n & m.
+  output <- data.table::melt(
+    as.data.table(legendreP)[, n := .I],
+    id.vars = 'n',
+    measure.vars = as.character(0:13),
+    value.name = 'P',
+    variable.name = 'm',
+    variable.factor = FALSE
+  )[
+    # data.table::melt casts field m into a character type. Recasting here as
+    # an int.
+    , m := as.integer(m)
+  ][
+    # Removing the matrix cells representing non-existing degree and order
+    # values.
+    m <= n
+  ]
+
+  data.table::setkey(output, n, m)
+
+  return(output)
 }
 
 #' Calculate Schmidt semi-normalized Legendre function

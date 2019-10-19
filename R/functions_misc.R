@@ -9,7 +9,7 @@
   } else if(t >= 2015 & t < 2020) {
     list(
       'year' = 2015,
-      'version' = c('WMM2015', 'WMM2015v2')
+      'version' = c('WMM2015v2', 'WMM2015')
     )
   } else if(t >= 2010) {
     list(

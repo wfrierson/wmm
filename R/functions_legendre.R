@@ -56,19 +56,17 @@
 #'
 #' @import data.table
 .RunLegendreProcedure <- function(mu) {
-  # NULLing out data.table-related names before using them to make
-  # devtools::check() & CRAN happy
-  n <- NULL
-  m <- NULL
-
   legendreP <- .kLegendreTemplate
+  legendreSchmidtP <- .kLegendreTemplate
+  legendreDerivSchmidtP <- .kLegendreTemplate
 
-  # The following vector is equivalent to code below, which is constant:
-  # seq_along(legendreSequence[['n']])
-  for(x in 1:103) {
+  for(
+    x in seq_along(.kLegendreSequence[['n']])
+  ) {
     nDegree <- .kLegendreSequence[['n']][x]
     mOrder <- .kLegendreSequence[['m']][x]
     index <- .kLegendreSequence[['index']][x]
+    normalizationFactor <- .kLegendreSequence[['normalizationFactor']][x]
 
     legendreValue <- .CalculateRecursiveLegendre(
       nDegree, mOrder, mu, index,
@@ -79,68 +77,35 @@
     )
 
     legendreP[nDegree, as.character(mOrder)] <- legendreValue
+
+    legendreSchmidtP[nDegree, as.character(mOrder)] <- if(mOrder == 0) {
+      legendreValue
+    } else {
+      legendreValue * normalizationFactor
+    }
   }
 
-  # Reshape matrix of computed Legendre values back into long data.table
-  # with keys n & m.
-  output <- data.table::melt(
-    as.data.table(legendreP)[, n := .I],
-    id.vars = 'n',
-    measure.vars = as.character(0:13),
-    value.name = 'P',
-    variable.name = 'm',
-    variable.factor = FALSE
-  )[
-    # data.table::melt casts field m into a character type. Recasting here as
-    # an int.
-    , m := as.integer(m)
-  ][
-    # Removing the matrix cells representing non-existing degree and order
-    # values.
-    m <= n
-  ]
+  # Get the next n value of the Schmidt semi-normalized P calculation
+  legendreSchmidtPNext <- rbind(
+    legendreSchmidtP[-1, ],
+    matrix(
+      rep(0, 14),
+      ncol = ncol(legendreSchmidtP),
+      dimnames = dimnames(legendreSchmidtP)
+    )
+  )
 
-  data.table::setkey(output, n, m)
+  legendreDerivSchmidtP <- (
+    (.kDegreeIndexMatrix + 1) * mu * legendreSchmidtP -
+      sqrt((.kDegreeIndexMatrix + 1)^2 - .kOrderIndexMatrix^2) *
+      legendreSchmidtPNext
+  ) / (1 - mu^2)
+
+  output <- list(
+    'P' = legendreP,
+    'Schmidt P' = legendreSchmidtP,
+    'Derivative Schmidt P' = legendreDerivSchmidtP
+  )
 
   return(output)
-}
-
-#' Calculate Schmidt semi-normalized Legendre function
-#'
-#' @param legendreTable \code{data.table} modified by \code{.RunLegendreProcedure}
-.CalculateSchmidtLegendre <- function(legendreTable) {
-  # NULLing out data.table-related names before using them to make
-  # devtools::check() & CRAN happy
-  n <- NULL
-  m <- NULL
-  P <- NULL
-  P_Schmidt <- NULL
-
-  legendreTable[
-    , P_Schmidt := ifelse(
-      m == 0,
-      P,
-      sqrt(2 * factorial(n - m) / factorial(n + m)) * P
-    )
-  ]
-}
-
-#' Calculate mu-derivative of Schmidt semi-normalized Legendre function
-#'
-#' @param legendreTable \code{data.table} modified by \code{.CalculateSchmidtLegendre}
-#' @param mu Function argument to \eqn{P_{n,m}(\mu)}{P_{n,m}(mu)}
-.CalculateSchmidtLegendreDerivative <- function(legendreTable, mu) {
-  # NULLing out data.table-related names before using them to make
-  # devtools::check() & CRAN happy
-  n <- NULL
-  m <- NULL
-  P_Schmidt <- NULL
-  P_Schmidt_muDeriv <- NULL
-
-  legendreTable[
-    , P_Schmidt_muDeriv := (
-      (n + 1) * mu * P_Schmidt -
-        sqrt((n + 1)^2 - m^2) * data.table::shift(P_Schmidt, type = 'lead')
-    ) / (1 - mu^2)
-  ]
 }

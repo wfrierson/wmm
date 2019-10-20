@@ -67,45 +67,77 @@
 #' Calculate summand of geocentric field component
 #'
 #' @param legendreTable \code{data.table} modified by \code{.CalculateSchmidtLegendreDerivative}
+#' @param gaussCoef Gauss coefficients as calculated by \code{.CalculateGaussCoef}
 #' @param radius Radius of curvature of prime vertical at given geodetic latitude
 #' @param lon GPS longitude
 #' @param latGC GPS latitude, geocentric
-.CalculateGeocentricFieldSummand <- function(
+#' @param deltaLatitude (Geocentric Latitude - Geodetic Latitude) in decimal degrees
+.CalculateGeocentricFieldSum <- function(
   legendreTable,
+  gaussCoef,
   radius,
   lon,
-  latGC
+  latGC,
+  deltaLatitude
 ) {
-  # NULLing out data.table-related names before using them to make
-  # devtools::check() & CRAN happy
-  n <- NULL
-  m <- NULL
-  P <- NULL
-  P_Schmidt <- NULL
-  P_Schmidt_muDeriv <- NULL
-  g <- NULL
-  h <- NULL
-  gDot0 <- NULL
-  hDot0 <- NULL
+  cosLonM <- outer(
+    1:13,
+    0:13,
+    FUN = function(n, m) cos(lon * m)
+  )
 
-  legendreTable[
-    , `:=` (
-      # Summands of main field vector components
-      xGeocentric = -((.kGeomagneticRadius / radius) ^ (n + 2)) *
-        (g * cos(m * lon) + h * sin(m * lon)) * P_Schmidt_muDeriv * cos(latGC),
-      yGeocentric = ((.kGeomagneticRadius / radius) ^ (n + 2)) * m *
-        (g * sin(m * lon) - h * cos(m * lon)) * P_Schmidt / cos(latGC),
-      zGeocentric = -(n + 1) * ((.kGeomagneticRadius / radius) ^ (n + 2)) *
-        (g * cos(m * lon) + h * sin(m * lon)) * P_Schmidt,
+  sinLonM <- outer(
+    1:13,
+    0:13,
+    FUN = function(n, m) sin(lon * m)
+  )
 
-      # Summands of secular variation vector components
-      xDotGeocentric = -((.kGeomagneticRadius / radius) ^ (n + 2)) *
-        (gDot0 * cos(m * lon) + hDot0 * sin(m * lon)) * P_Schmidt_muDeriv *
-        cos(latGC),
-      yDotGeocentric = ((.kGeomagneticRadius / radius) ^ (n + 2)) * m *
-        (gDot0 * sin(m * lon) - hDot0 * cos(m * lon)) * P_Schmidt / cos(latGC),
-      zDotGeocentric = -(n + 1) * ((.kGeomagneticRadius / radius) ^ (n + 2)) *
-        (gDot0 * cos(m * lon) + hDot0 * sin(m * lon)) * P_Schmidt
-    )
-  ]
+  radiusRatioPower <- (.kGeomagneticRadius / radius) ^ (.kDegreeIndexMatrix + 2)
+
+  xGeocentric <- -radiusRatioPower *
+    (gaussCoef[['g']] * cosLonM + gaussCoef[['h']] * sinLonM) *
+    legendreTable[['Derivative Schmidt P']] * cos(latGC)
+
+  yGeocentric <- radiusRatioPower * .kOrderIndexMatrix * (
+    gaussCoef[['g']] * sinLonM - gaussCoef[['h']] * cosLonM
+  ) * legendreTable[['Schmidt P']] / cos(latGC)
+
+  zGeocentric <- -(.kDegreeIndexMatrix + 1) * radiusRatioPower *
+    (gaussCoef[['g']] * cosLonM + gaussCoef[['h']] * sinLonM) *
+    legendreTable[['Schmidt P']]
+
+  xDotGeocentric <- -radiusRatioPower * (
+    gaussCoef[['gDot0']] * cosLonM + gaussCoef[['hDot0']] * sinLonM
+  ) * legendreTable[['Derivative Schmidt P']] * cos(latGC)
+
+  yDotGeocentric <- radiusRatioPower * .kOrderIndexMatrix * (
+    gaussCoef[['gDot0']] * sinLonM - gaussCoef[['hDot0']] * cosLonM
+  ) * legendreTable[['Schmidt P']] / cos(latGC)
+
+  zDotGeocentric <- -(.kDegreeIndexMatrix + 1) * radiusRatioPower * (
+    gaussCoef[['gDot0']] * cosLonM + gaussCoef[['hDot0']] * sinLonM
+  ) * legendreTable[['Schmidt P']]
+
+  # Package the sum of geocentric values with deltaLatitude to later calculate
+  # geodentric values
+  geocentricField <- list(
+    sum(xGeocentric[-13, -14], na.rm = TRUE),
+    sum(yGeocentric[-13, -14], na.rm = TRUE),
+    sum(zGeocentric[-13, -14], na.rm = TRUE),
+    deltaLatitude
+  )
+
+  geocentricDotField <- list(
+    sum(xDotGeocentric[-13, -14], na.rm = TRUE),
+    sum(yDotGeocentric[-13, -14], na.rm = TRUE),
+    sum(zDotGeocentric[-13, -14], na.rm = TRUE),
+    deltaLatitude
+  )
+
+  output <- list(
+    'Main Field' = geocentricField,
+    'Secular Variation' = geocentricDotField
+  )
+
+  return(output)
 }

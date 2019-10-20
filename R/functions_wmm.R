@@ -7,7 +7,6 @@
 #' @param latGC GPS latitude, geocentric
 #' @param radius Radius of curvature of prime vertical at given geodetic latitude
 #' @param time Annualized date time. E.g., 2015-02-01 = (2015 + 32/365) = 2015.088
-#' @param highestDegree Highest degree used to compute the WMM magnetic field. Note: This is a diagnostic. \code{highestDegree} should always be 12.
 #' @param wmmVersion String representing WMM version to use. Must be consistent with \code{time} and one of the following: 'derived', 'WMM2000', 'WMM2005', 'WMM2010', 'WMM2015', 'WMM2015v2'. Default 'derived' value will infer the latest WMM version consistent with \code{time}.
 #'
 #' @return Expected magnetic field from WMM2015 expressed as a vector, \eqn{m_{\lambda_t,\varphi_t,h_t,t}^{WMM}}{m_wmm(lambda_t, phi_t, h_t, t)}
@@ -19,96 +18,53 @@
   latGC,
   radius,
   time,
-  highestDegree = 12,
   wmmVersion = 'derived'
 ) {
-  # NULLing out data.table-related names before using them to make
-  # devtools::check() & CRAN happy
-  J <- NULL
-  . <- NULL
-  n <- NULL
-  m <- NULL
-  P <- NULL
-  P_Schmidt <- NULL
-  P_Schmidt_muDeriv <- NULL
-  xGeocentric <- NULL
-  yGeocentric <- NULL
-  zGeocentric <- NULL
-  xDotGeocentric <- NULL
-  yDotGeocentric <- NULL
-  zDotGeocentric <- NULL
-  g <- NULL
-  h <- NULL
+  # Check consistency of given time and wmmVersion
+  derivedVersionInfo <- .CheckVersionWMM(t = time, wmmVersion = wmmVersion)
+
+  if(wmmVersion == 'derived') {
+    # Assume first value of 'version' output from .DeriveVersionInfo is the most
+    # appropriate.
+    # E.g., if the derived reference year is 2015, use the out-of-cycle version.
+    wmmVersion <- derivedVersionInfo[['version']][1]
+  }
 
   deltaLatitude <- latGC - latGD   # Leave in degrees for deltaLatitude
   lon <- lon / .kRadToDegree
   latGC <- latGC / .kRadToDegree
   latGD <- latGD / .kRadToDegree
 
-  # Sequential calculations
+  # Run workhorse of algorithm, i.e., use recursion relations to sequentially
+  # calculate different Legendre values to later be summed
   mu <- sin(latGC)
   legendreTable <- .RunLegendreProcedure(mu)
 
-  # Derive other legendre functions
-  .CalculateSchmidtLegendre(legendreTable)
-  data.table::setorder(legendreTable, m, n)
+  # Get Gauss coefficients given input time and reference year
+  gaussCoef <- .CalculateGaussCoef(
+    t = time,
+    t0 = derivedVersionInfo[['year']],
+    wmmVersion = wmmVersion
+  )
 
-  .CalculateSchmidtLegendreDerivative(legendreTable, mu)
-  data.table::setkey(legendreTable, n, m)
-
-  legendreTable <- legendreTable[1:90]
-
-  # Lookup Gauss coefficients
-  legendreTable[
-    , c('g', 'h', 'gDot0', 'hDot0') :=
-      .CalculateGaussCoef(n, m, time, wmmVersion)
-    , by = .(n,m)
-  ]
-
-  # Compute geocentric WMM summand values (i.e., to be summed)
-  .CalculateGeocentricFieldSummand(
+  geocentricFields <- .CalculateGeocentricFieldSum(
     legendreTable,
+    gaussCoef,
     radius,
     lon,
-    latGC
-  )
-
-  # Sum of geocentric values for relevant degrees
-  legendreTable <- legendreTable[
-    ,.(
-      xGeocentric = sum(xGeocentric),
-      yGeocentric = sum(yGeocentric),
-      zGeocentric = sum(zGeocentric),
-      xDotGeocentric = sum(xDotGeocentric),
-      yDotGeocentric = sum(yDotGeocentric),
-      zDotGeocentric = sum(zDotGeocentric)
-    )
-  ]
-
-  # Package the geocentric sums with deltaLatitude for downstream inputs
-  geocentricField <- list(
-    legendreTable$xGeocentric,
-    legendreTable$yGeocentric,
-    legendreTable$zGeocentric,
-    deltaLatitude
-  )
-
-  geocentricDotField <- list(
-    legendreTable$xDotGeocentric,
-    legendreTable$yDotGeocentric,
-    legendreTable$zDotGeocentric,
+    latGC,
     deltaLatitude
   )
 
   # Convert predicted magnetic field from geocentric to geodetic coordinates
   geodentricField <- do.call(
     .ConvertGeocentricToGeodeticFieldComponents,
-    geocentricField
+    geocentricFields[['Main Field']]
   )
 
   geodentricDotField <- do.call(
     .ConvertGeocentricToGeodeticFieldComponents,
-    geocentricDotField
+    geocentricFields[['Secular Variation']]
   )
 
   output <- union(

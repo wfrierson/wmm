@@ -45,14 +45,9 @@
   latGC <- latGC / .kRadToDegree
   latGD <- latGD / .kRadToDegree
 
-  legendreTable <- data.table::copy(.kLegendreIndices)
-
-  # Index sequence to compute all needed associated legendre functions
-  legendreSequence <- data.table::copy(.kLegendreSequence)
-
   # Sequential calculations
   mu <- sin(latGC)
-  .RunLegendreProcedure(legendreTable, legendreSequence, mu)
+  legendreTable <- .RunLegendreProcedure(mu)
 
   # Derive other legendre functions
   .CalculateSchmidtLegendre(legendreTable)
@@ -61,10 +56,13 @@
   .CalculateSchmidtLegendreDerivative(legendreTable, mu)
   data.table::setkey(legendreTable, n, m)
 
+  legendreTable <- legendreTable[1:90]
+
   # Lookup Gauss coefficients
   legendreTable[
     , c('g', 'h', 'gDot0', 'hDot0') :=
       .CalculateGaussCoef(n, m, time, wmmVersion)
+    , by = .(n,m)
   ]
 
   # Compute geocentric WMM summand values (i.e., to be summed)
@@ -76,8 +74,7 @@
   )
 
   # Sum of geocentric values for relevant degrees
-  legendreTable <- legendreTable[!J(13)][
-    J(1:highestDegree)
+  legendreTable <- legendreTable[
     ,.(
       xGeocentric = sum(xGeocentric),
       yGeocentric = sum(yGeocentric),

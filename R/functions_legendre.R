@@ -56,7 +56,12 @@
 #'
 #' @import data.table
 .RunLegendreProcedure <- function(mu) {
-  legendreP <- rlang::duplicate(.kLegendreTemplate)
+  # NULLing out data.table-related names before using them to make
+  # devtools::check() & CRAN happy
+  n <- NULL
+  m <- NULL
+
+  legendreP <- .kLegendreTemplate
 
   # The following vector is equivalent to code below, which is constant:
   # seq_along(legendreSequence[['n']])

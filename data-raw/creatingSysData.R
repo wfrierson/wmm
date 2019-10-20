@@ -167,10 +167,37 @@ data.table::setkey(
   ))))))
 ]
 
+# Calculate Schmidt normalization factor
+.kLegendreSequence[
+  , normalizationFactor := sqrt(2 * factorial(n - m) / factorial(n + m))
+]
+
 # Restate .kLegendreSequence back as list of vectors to use in downstream
 # loop, i.e., don't lookup values in data.table, just pull the needed values
 # in order of .kLegendreSequence.
 .kLegendreSequence <- as.list(.kLegendreSequence)
+
+###############################################################################
+## Create grid of constants representing Legendre degree and order indices
+
+.kDegreeIndexMatrix <- outer(
+  1:13,
+  0:13,
+  FUN = function(n, m) n
+)
+
+.kOrderIndexMatrix <- outer(
+  1:13,
+  0:13,
+  FUN = function(n, m) m
+)
+
+# Prevent calculating complex numbers for a few lines of code by removing
+# values for unneeded Legendre indices
+filterUnneededIndices <- as.vector(.kDegreeIndexMatrix < .kOrderIndexMatrix)
+
+.kDegreeIndexMatrix[filterUnneededIndices] <- NA
+.kOrderIndexMatrix[filterUnneededIndices] <- NA
 
 ###############################################################################
 ## Save Objects
@@ -186,5 +213,7 @@ usethis::use_data(
   .kEarthSemimajorAxis,
   .kGeomagneticRadius,
   .kRadToDegree,
-  .kLegendreSequence
+  .kLegendreSequence,
+  .kDegreeIndexMatrix,
+  .kOrderIndexMatrix
 ,internal = TRUE, overwrite = TRUE)

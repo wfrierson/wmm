@@ -4,13 +4,9 @@
 \alias{.RunLegendreProcedure}
 \title{Compute Associated Legendre Functions Given Sequence of (degree, order) Indices}
 \usage{
-.RunLegendreProcedure(legendreTable, legendreSequence, mu)
+.RunLegendreProcedure(mu)
 }
 \arguments{
-\item{legendreTable}{copy of internal data.table \code{.kLegendreIndices} to store intermediate function values}
-
-\item{legendreSequence}{Sequence of (degree, order) indices contained in a list}
-
 \item{mu}{Function argument to \eqn{P_{n,m}(\mu)}{P_{n,m}(mu)}}
 }
 \description{

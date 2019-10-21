@@ -7,7 +7,7 @@
 # wmm
 R implementation of the [World Magnetic Model](https://www.ngdc.noaa.gov/geomag/WMM/DoDWMM.shtml) (WMM).
 
-The purpose of this project is to program WMM entirely in R to better understand the numerical procedure. For those that prefer a non-R solution, the authors of WMM provide free software to calculate magnetic field, which can be found [here](https://www.ngdc.noaa.gov/geomag/WMM/soft.shtml).
+The purpose of this package is to program WMM entirely in R to better understand the numerical procedure. For those that prefer a non-R solution, the authors of WMM provide free software to calculate magnetic field, which can be found [here](https://www.ngdc.noaa.gov/geomag/WMM/soft.shtml).
 
 # Usage
 

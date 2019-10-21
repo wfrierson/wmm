@@ -15,8 +15,6 @@
 #' @param Pm_2 \eqn{P_{n,m-2}(\mu)}{P_{n,m-2}(mu)}
 #'
 #' @return \eqn{P_{n,m}(\mu)}{P_{n,m}(mu)}, scalar
-#'
-#' @import data.table
 .CalculateRecursiveLegendre <- function(
   n,
   m,
@@ -53,8 +51,6 @@
 #' Procedure that computes the associated Legendre function, \eqn{P_{n,m}(\mu)}{P_{n,m}(mu)}, given a sequence of (degree, order) indices and function argument \eqn{\mu}{mu}. This is computed via recursive relationships for Legendre functions.
 #'
 #' @param mu Function argument to \eqn{P_{n,m}(\mu)}{P_{n,m}(mu)}
-#'
-#' @import data.table
 .RunLegendreProcedure <- function(mu) {
   legendreP <- .kLegendreTemplate
   legendreSchmidtP <- .kLegendreTemplate

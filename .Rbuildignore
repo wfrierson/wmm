@@ -4,3 +4,4 @@
 ^\.Rprofile$
 ^\.travis\.yml$
 ^data-raw/
+cran-comments.md

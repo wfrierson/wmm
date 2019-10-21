@@ -1,7 +1,7 @@
 Package: wmm
 Type: Package
 Title: R Implementation of World Magnetic Model
-Version: 0.1.0
+Version: 1.0.0
 Authors@R: person("Will", "Frierson", email = "will.frierson@gmail.com",
   role = c("aut", "cre"))
 Maintainer: Will Frierson <will.frierson@gmail.com>

@@ -66,7 +66,6 @@
     nDegree <- .kLegendreSequence[['n']][x]
     mOrder <- .kLegendreSequence[['m']][x]
     index <- .kLegendreSequence[['index']][x]
-    normalizationFactor <- .kLegendreSequence[['normalizationFactor']][x]
 
     legendreValue <- .CalculateRecursiveLegendre(
       nDegree, mOrder, mu, index,
@@ -77,13 +76,10 @@
     )
 
     legendreP[nDegree, as.character(mOrder)] <- legendreValue
-
-    legendreSchmidtP[nDegree, as.character(mOrder)] <- if(mOrder == 0) {
-      legendreValue
-    } else {
-      legendreValue * normalizationFactor
-    }
   }
+
+  # Compute semi-normalized Schmidt Legendre values
+  legendreSchmidtP <- .kNormalizationFactors * legendreP
 
   # Get the next n value of the Schmidt semi-normalized P calculation
   legendreSchmidtPNext <- rbind(

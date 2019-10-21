@@ -64,7 +64,7 @@
   return(output)
 }
 
-#' Calculate summand of geocentric field component
+#' Calculate sum of geocentric field components
 #'
 #' @param legendreTable \code{data.table} modified by \code{.CalculateSchmidtLegendreDerivative}
 #' @param gaussCoef Gauss coefficients as calculated by \code{.CalculateGaussCoef}

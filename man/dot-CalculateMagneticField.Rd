@@ -5,7 +5,7 @@
 \title{Calculate Expected Magnetic Field from WMM2015}
 \usage{
 .CalculateMagneticField(lon, latGD, latGC, radius, time,
-  highestDegree = 12, wmmVersion = "derived")
+  wmmVersion = "derived")
 }
 \arguments{
 \item{lon}{GPS longitude}
@@ -17,8 +17,6 @@
 \item{radius}{Radius of curvature of prime vertical at given geodetic latitude}
 
 \item{time}{Annualized date time. E.g., 2015-02-01 = (2015 + 32/365) = 2015.088}
-
-\item{highestDegree}{Highest degree used to compute the WMM magnetic field. Note: This is a diagnostic. \code{highestDegree} should always be 12.}
 
 \item{wmmVersion}{String representing WMM version to use. Must be consistent with \code{time} and one of the following: 'derived', 'WMM2000', 'WMM2005', 'WMM2010', 'WMM2015', 'WMM2015v2'. Default 'derived' value will infer the latest WMM version consistent with \code{time}.}
 }

@@ -1,3 +1,5 @@
+testthat::context('Testing WMM...')
+
 # Define path to WMM test data
 folderExtdata <- file.path(
   system.file(package = 'wmm'),

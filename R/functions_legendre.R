@@ -15,8 +15,6 @@
 #' @param Pm_2 \eqn{P_{n,m-2}(\mu)}{P_{n,m-2}(mu)}
 #'
 #' @return \eqn{P_{n,m}(\mu)}{P_{n,m}(mu)}, scalar
-#'
-#' @import data.table
 .CalculateRecursiveLegendre <- function(
   n,
   m,
@@ -27,17 +25,6 @@
   Pm_1 = NULL,
   Pm_2 = NULL
 ) {
-  # NULLing out data.table-related names before using them to make
-  # devtools::check() & CRAN happy
-  # J <- NULL
-
-  # Rename degree and order to avoid using the same name fields in
-  # .kLegendreIndices.
-  # nDegree <- n
-  # mOrder <- m
-
-  # index <- .kLegendreIndices[J(nDegree, mOrder)]$index
-
   output <- switch(
     index,
     # n == 1 & m == 0, index == 1
@@ -63,87 +50,54 @@
 #'
 #' Procedure that computes the associated Legendre function, \eqn{P_{n,m}(\mu)}{P_{n,m}(mu)}, given a sequence of (degree, order) indices and function argument \eqn{\mu}{mu}. This is computed via recursive relationships for Legendre functions.
 #'
-#' @param legendreTable copy of internal data.table \code{.kLegendreIndices} to store intermediate function values
-#' @param legendreSequence Sequence of (degree, order) indices contained in a list
 #' @param mu Function argument to \eqn{P_{n,m}(\mu)}{P_{n,m}(mu)}
-#'
-#' @import data.table
-.RunLegendreProcedure <- function(legendreTable, legendreSequence, mu) {
-  # NULLing out data.table-related names before using them to make
-  # devtools::check() & CRAN happy
-  J <- NULL
+.RunLegendreProcedure <- function(mu) {
+  legendreP <- .kLegendreTemplate
+  legendreSchmidtP <- .kLegendreTemplate
+  legendreDerivSchmidtP <- .kLegendreTemplate
 
-  invisible(lapply(
-    # The following vector is equivalent to code below, which is constant:
-    # seq_along(legendreSequence[['n']])
-    1:103,
-    function(x) {
-      # Rename degree and order to avoid using the same name fields in
-      # .kCoefficientsWMM.
-      nDegree <- legendreSequence[['n']][x]
-      mOrder <- legendreSequence[['m']][x]
-      rowNumb <- legendreTable[J(nDegree, mOrder)]$rowNumb
-      index <- legendreTable[J(nDegree, mOrder)]$index
+  for(
+    x in seq_along(.kLegendreSequence[['n']])
+  ) {
+    nDegree <- .kLegendreSequence[['n']][x]
+    mOrder <- .kLegendreSequence[['m']][x]
+    index <- .kLegendreSequence[['index']][x]
 
-      legendreValue <- if(nDegree <= 2) {
-        .CalculateRecursiveLegendre(
-          nDegree, mOrder, mu, index
-        )
-      } else if(mOrder <= 1) {
-        .CalculateRecursiveLegendre(
-          nDegree, mOrder, mu, index,
-          Pn_1 = legendreTable[J(nDegree - 1, mOrder)]$P,
-          Pn_2 = legendreTable[J(nDegree - 2, mOrder)]$P
-        )
-      } else {
-        .CalculateRecursiveLegendre(
-          nDegree, mOrder, mu, index,
-          Pm_1 = legendreTable[J(nDegree, mOrder - 1)]$P,
-          Pm_2 = legendreTable[J(nDegree, mOrder - 2)]$P
-        )
-      }
-
-      data.table::set(legendreTable, rowNumb, 'P', legendreValue)
-    }
-  ))
-}
-
-#' Calculate Schmidt semi-normalized Legendre function
-#'
-#' @param legendreTable \code{data.table} modified by \code{.RunLegendreProcedure}
-.CalculateSchmidtLegendre <- function(legendreTable) {
-  # NULLing out data.table-related names before using them to make
-  # devtools::check() & CRAN happy
-  n <- NULL
-  m <- NULL
-  P <- NULL
-  P_Schmidt <- NULL
-
-  legendreTable[
-    , P_Schmidt := ifelse(
-      m == 0,
-      P,
-      sqrt(2 * factorial(n - m) / factorial(n + m)) * P
+    legendreValue <- .CalculateRecursiveLegendre(
+      nDegree, mOrder, mu, index,
+      Pn_1 = legendreP[(nDegree - 1), as.character(mOrder)],
+      Pn_2 = legendreP[(nDegree - 2), as.character(mOrder)],
+      Pm_1 = legendreP[nDegree, as.character(mOrder - 1)],
+      Pm_2 = legendreP[nDegree, as.character(mOrder - 2)]
     )
-  ]
-}
 
-#' Calculate mu-derivative of Schmidt semi-normalized Legendre function
-#'
-#' @param legendreTable \code{data.table} modified by \code{.CalculateSchmidtLegendre}
-#' @param mu Function argument to \eqn{P_{n,m}(\mu)}{P_{n,m}(mu)}
-.CalculateSchmidtLegendreDerivative <- function(legendreTable, mu) {
-  # NULLing out data.table-related names before using them to make
-  # devtools::check() & CRAN happy
-  n <- NULL
-  m <- NULL
-  P_Schmidt <- NULL
-  P_Schmidt_muDeriv <- NULL
+    legendreP[nDegree, as.character(mOrder)] <- legendreValue
+  }
 
-  legendreTable[
-    , P_Schmidt_muDeriv := (
-      (n + 1) * mu * P_Schmidt -
-        sqrt((n + 1)^2 - m^2) * data.table::shift(P_Schmidt, type = 'lead')
-    ) / (1 - mu^2)
-  ]
+  # Compute semi-normalized Schmidt Legendre values
+  legendreSchmidtP <- .kNormalizationFactors * legendreP
+
+  # Get the next n value of the Schmidt semi-normalized P calculation
+  legendreSchmidtPNext <- rbind(
+    legendreSchmidtP[-1, ],
+    matrix(
+      rep(0, 14),
+      ncol = ncol(legendreSchmidtP),
+      dimnames = dimnames(legendreSchmidtP)
+    )
+  )
+
+  legendreDerivSchmidtP <- (
+    (.kDegreeIndexMatrix + 1) * mu * legendreSchmidtP -
+      sqrt((.kDegreeIndexMatrix + 1)^2 - .kOrderIndexMatrix^2) *
+      legendreSchmidtPNext
+  ) / (1 - mu^2)
+
+  output <- list(
+    'P' = legendreP,
+    'Schmidt P' = legendreSchmidtP,
+    'Derivative Schmidt P' = legendreDerivSchmidtP
+  )
+
+  return(output)
 }

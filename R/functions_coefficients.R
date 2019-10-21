@@ -2,53 +2,29 @@
 #'
 #' Find Gauss coefficient \eqn{g_{n,m}(t)} consistent with the World Magnetic Model.
 #'
-#' @param n Degree of associated Legendre function to compute
-#' @param m Order of associated Legendre function to compute
 #' @param t Annualized date time. E.g., 2015-02-01 = (2015 + 32/365) = 2015.088
+#' @param t0 Annualized reference time associated with \code{t}
 #' @param wmmVersion String representing WMM version to use. Must be consistent with \code{time} and one of the following: 'derived', 'WMM2000', 'WMM2005', 'WMM2010', 'WMM2015', 'WMM2015v2'. Default 'derived' value will infer the latest WMM version consistent with \code{time}.
 #'
 #' @return vector of Gauss coefficients, \eqn{g_{n,m}(t)} and \eqn{h_{n,m}(t)}
-#'
-#' @import data.table
-#' @importFrom utils tail
-.CalculateGaussCoef <- function(n, m, t, wmmVersion = 'derived') {
-  # NULLing out data.table-related names before using them to make
-  # devtools::check() & CRAN happy
-  J <- NULL
+.CalculateGaussCoef <- function(t, t0, wmmVersion = 'derived') {
+  gaussG <- .kLegendreTemplate
+  gaussH <- .kLegendreTemplate
+  gaussGDot <- .kLegendreTemplate
+  gaussHDot <- .kLegendreTemplate
 
-  .CheckVersionWMM(t = t, wmmVersion = wmmVersion)
-  derivedVersionInfo <- .DeriveVersionInfo(t)
-  t0 <- derivedVersionInfo[['year']]
-
-  if(wmmVersion == 'derived') {
-    # Assume last value of 'version' output from .DeriveVersionInfo is the most
-    # appropriate.
-    # E.g., if the derived reference year is 2015, use the out-of-cycle version.
-    wmmVersion <- tail(derivedVersionInfo[['version']], 1)
-  }
-
-  # Rename degree and order to avoid using the same name fields in
-  # .kCoefficientsWMM.
-  nDegree <- n
-  mOrder <- m
-  coefficientsWMM <- data.table::copy(
-    .kCoefficientsWMM[J(nDegree, mOrder, wmmVersion)]
-  )
-
-  # Get g coefficient
-  g0 <- coefficientsWMM$g
-  gDot0 <- coefficientsWMM$g_dot
-  coefG <- g0 + (t - t0) * gDot0
-
-  h0 <- coefficientsWMM$h
-  hDot0 <- coefficientsWMM$h_dot
-  coefH <- h0 + (t - t0) * hDot0
+  gaussG[1:12, 1:13] <- .kCoefficientsWMMg[[wmmVersion]] +
+    (t - t0) * .kCoefficientsWMMgDot[[wmmVersion]]
+  gaussH[1:12, 1:13] <- .kCoefficientsWMMh[[wmmVersion]] +
+    (t - t0) * .kCoefficientsWMMhDot[[wmmVersion]]
+  gaussGDot[1:12, 1:13] <- .kCoefficientsWMMgDot[[wmmVersion]]
+  gaussHDot[1:12, 1:13] <- .kCoefficientsWMMhDot[[wmmVersion]]
 
   output <- list(
-    'g' = coefG,
-    'h' = coefH,
-    'gDot0' = gDot0,
-    'hDot0' = hDot0
+    'g' = gaussG,
+    'h' = gaussH,
+    'gDot0' = gaussGDot,
+    'hDot0' =gaussHDot
   )
 
   return(output)

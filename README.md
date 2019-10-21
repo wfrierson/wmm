@@ -107,6 +107,7 @@ wmm/
 │   |── functions_misc.R
 │   |── functions_wmm.R
 │   |── sysdata.rda
+|   |── wmm.R
 │       
 └── tests/
     │── testthat.R

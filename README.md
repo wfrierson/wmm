@@ -5,7 +5,7 @@
 <!-- badges: end -->
 
 # wmm
-Unofficial R implementation of the [World Magnetic Model](https://www.ngdc.noaa.gov/geomag/WMM/DoDWMM.shtml) (WMM). This is a work in progress.
+R implementation of the [World Magnetic Model](https://www.ngdc.noaa.gov/geomag/WMM/DoDWMM.shtml) (WMM).
 
 The purpose of this project is to program WMM entirely in R to better understand the numerical procedure. For those that prefer a non-R solution, the authors of WMM provide free software to calculate magnetic field, which can be found [here](https://www.ngdc.noaa.gov/geomag/WMM/soft.shtml).
 
@@ -71,50 +71,6 @@ GetMagneticFieldWMM(
 # [1] 86.24356
 ```
 
-# Project Layout
-
-The project has the following structure:
-
-```
-wmm/
-├── .gitignore
-├── .Rbuildignore
-├── .Rprofile
-├── .travis.yml
-├── DESCRIPTION
-├── LICENSE
-├── NAMESPACE
-├── README.md
-├── wmm.Rproj
-│   
-├─── data-raw/
-│   |── creatingSysData.R
-│       
-├───inst/
-│   └── extdata/
-│       |── WMM2000.csv
-│       |── WMM2005.csv
-│       |── WMM2010.csv
-│       |── WMM2015.csv
-│       |── WMM2015v2.csv
-│       |── WMMTestValues.csv
-│           
-├── man/
-├── R/
-│   |── functions_coefficients.R
-│   |── functions_geocoordinates.R
-│   |── functions_legendre.R
-│   |── functions_misc.R
-│   |── functions_wmm.R
-│   |── sysdata.rda
-|   |── wmm.R
-│       
-└── tests/
-    │── testthat.R
-    │   
-    └── testthat/
-        |── testWMM.R
-```
 # Citations
 
 1. Chulliat, A., W. Brown, P. Alken, S. Macmillan, M. Nair, C. Beggan, A. Woods,

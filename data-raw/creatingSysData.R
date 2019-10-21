@@ -169,8 +169,27 @@ data.table::setkey(
 
 # Calculate Schmidt normalization factor
 .kLegendreSequence[
-  , normalizationFactor := sqrt(2 * factorial(n - m) / factorial(n + m))
+  , normalizationFactor := ifelse(
+    m == 0,
+    1,
+    sqrt(2 * factorial(n - m) / factorial(n + m))
+  )
 ]
+
+# Create matrix of normalization factors with indices (n, m)
+.kNormalizationFactors <- .kLegendreTemplate
+
+.kNormalizationFactors[1:13, 1:13] <- as.matrix(
+  data.table::dcast(
+    .kLegendreSequence,
+    n ~ m,
+    value.var = 'normalizationFactor'
+  )[
+    , -c('n')
+  ]
+)
+
+.kLegendreSequence[, normalizationFactor := NULL]
 
 # Restate .kLegendreSequence back as list of vectors to use in downstream
 # loop, i.e., don't lookup values in data.table, just pull the needed values
@@ -215,5 +234,6 @@ usethis::use_data(
   .kRadToDegree,
   .kLegendreSequence,
   .kDegreeIndexMatrix,
-  .kOrderIndexMatrix
+  .kOrderIndexMatrix,
+  .kNormalizationFactors
 ,internal = TRUE, overwrite = TRUE)

@@ -7,7 +7,7 @@
 #' @section WMM functions:
 #' This package has 1 exported function, \code{\link{GetMagneticFieldWMM}}, which returns a list of calculated main field and secular variation vector components in nT and nT/yr, resp.: \code{x}, \code{y}, \code{z}, \code{xDot}, \code{yDot}, \code{zDot}.
 #'
-#' @section Acknowledgements:
+#' @section Acknowledgments:
 #' Thanks to:
 #' \itemize{
 #'     \item The WMM team past, present, and future for making the Gauss coefficients public domain

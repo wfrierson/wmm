@@ -13,7 +13,7 @@ The \code{wmm} package calculates magnetic field at a given location and time ac
 This package has 1 exported function, \code{\link{GetMagneticFieldWMM}}, which returns a list of calculated main field and secular variation vector components in nT and nT/yr, resp.: \code{x}, \code{y}, \code{z}, \code{xDot}, \code{yDot}, \code{zDot}.
 }
 
-\section{Acknowledgements}{
+\section{Acknowledgments}{
 
 Thanks to:
 \itemize{

@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions_geocoordinates.R
 \name{.CalculateGeocentricFieldSum}
 \alias{.CalculateGeocentricFieldSum}
-\title{Calculate summand of geocentric field component}
+\title{Calculate sum of geocentric field components}
 \usage{
 .CalculateGeocentricFieldSum(legendreTable, gaussCoef, radius, lon, latGC,
   deltaLatitude)
@@ -21,5 +21,5 @@
 \item{deltaLatitude}{(Geocentric Latitude - Geodetic Latitude) in decimal degrees}
 }
 \description{
-Calculate summand of geocentric field component
+Calculate sum of geocentric field components
 }

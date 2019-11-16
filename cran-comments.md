@@ -22,4 +22,4 @@ Notes: Prior CRAN reviewer recommended changing license setup. Complied and resu
 Submission date: 2019-11-16
 
 Notes: Prior CRAN reviewer recommended changes to DESCRIPTION Title and Description sections.
-Complied and resubmitted.
+Complied and resubmitted. Also, added Language parameter in DESCRIPTION and simplified README.

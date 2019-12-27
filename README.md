@@ -77,7 +77,7 @@ GetMagneticFieldWMM(
 # $yDot
 # [1] 6.941152
 # 
-# $zDots
+# $zDot
 # [1] 86.24356
 ```
 

@@ -2,20 +2,30 @@
 [![Travis build status](https://travis-ci.org/wfrierson/wmm.svg?branch=master)](https://travis-ci.org/wfrierson/wmm)
 [![GitHub license](https://img.shields.io/github/license/Naereen/StrapDown.js.svg)](/LICENSE)
 [![Coverage Status](https://coveralls.io/repos/github/wfrierson/wmm/badge.svg?branch=master)](https://coveralls.io/github/wfrierson/wmm?branch=master)
+[![CRAN version](https://www.r-pkg.org/badges/version/wmm)](https://cran.r-project.org/web/packages/wmm/index.html)
+[![CRAN downloads](https://cranlogs.r-pkg.org/badges/grand-total/wmm)](https://cran.r-project.org/web/packages/wmm/index.html)
 <!-- badges: end -->
 
 # wmm
 The [World Magnetic Model](https://www.ngdc.noaa.gov/geomag/WMM/DoDWMM.shtml) (WMM)
 
-The purpose of this package is to program WMM entirely in R to better understand the numerical procedure. For those that prefer a non-R solution, the authors of WMM provide free software to calculate magnetic field, which can be found [here](https://www.ngdc.noaa.gov/geomag/WMM/soft.shtml).
+The purpose of this package is to make accessible the magnetic field vector components from WMM. The supported date ranges for `wmm` run from 2000-01-01 to 2020-01-01. The magnetic field calculations across this time range agree with the official WMM test values to the precision provided by the authors. I will update this package for each new WMM version. For those that prefer a non-R solution, the authors of WMM provide free software to calculate magnetic field, which can be found [here](https://www.ngdc.noaa.gov/geomag/WMM/soft.shtml).
+
+# Installation
+
+``` r
+
+install.packages('wmm')
+
+```
 
 # Usage
 
-Currently, the only exported function is `GetMagneticFieldWMM`, which returns the orthogonal vector components of the main magnetic field (in nT) and secular variation field (in nT/yr) as predicted by WMM.
+In v1.0.0, the only exported function is `GetMagneticFieldWMM`, which returns the orthogonal vector components of the main magnetic field (in nT) and secular variation field (in nT/yr) as predicted by WMM.
 
 Example usage: 
 
-1. Calculate expected magnetic field components at a benchmark location, mid 2017. Using the default value for WMM version, this will use the more recent, "out of cycle" coefficients from WMM2015v2 as opposed to the older WMM2015.
+1. Calculate expected magnetic field components at a benchmark location, mid 2017. Using the default value for WMM version, this will use the more recent, "out of cycle" coefficients from WMM2015v2 as opposed to the older WMM2015 version.
 ``` r
 
 GetMagneticFieldWMM(

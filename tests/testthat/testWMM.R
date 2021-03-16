@@ -60,14 +60,14 @@ testthat::test_that('WMM Test Values, Not 2005', {
   expect_true(
     all.equal(
       testData[
-        wmmVersion != ' WMM2005'
+        wmmVersion != 'WMM2005'
         , mget(vectorFields)
       ],
       calculatedData[
-        wmmVersion != ' WMM2005'
+        wmmVersion != 'WMM2005'
         , mget(vectorFields)
       ],
-      tolerance = 2.5e-5
+      tolerance = 5e-6
     )
   )
 })
@@ -76,33 +76,53 @@ testthat::test_that('WMM Test Values, 2005 only', {
   expect_true(
     all.equal(
       testData[
-        wmmVersion == ' WMM2005'
+        wmmVersion == 'WMM2005'
         , mget(vectorFields)
       ],
       calculatedData[
-        wmmVersion == ' WMM2005'
+        wmmVersion == 'WMM2005'
         , mget(vectorFields)
       ],
-      # Setting tolerance to 0.5 due to small precision provided in 2005
+      # Setting tolerance to 5e-5 due to small precision provided in 2005
       # test values.
-      tolerance = 5e-1
+      tolerance = 5e-5
     )
   )
 })
 
 testthat::context('Testing WMM secular variation field benchmarks...')
-testthat::test_that('WMM Test Values (secular)', {
+testthat::test_that('WMM Test Values (secular), not 2005', {
   expect_true(
     all.equal(
       testData[
+        wmmVersion != 'WMM2005'
         , mget(vectorDotFields)
-        ],
+      ],
       calculatedData[
+        wmmVersion != 'WMM2005'
         , mget(vectorDotFields)
-        ],
-      # Setting tolerance to 0.007 due to small precision provided secular
+      ],
+      # Setting tolerance to 0.001 due to small precision provided for secular
       # variation test values.
-      tolerance = 7e-3
+      tolerance = 1e-3
+    )
+  )
+})
+
+testthat::test_that('WMM Test Values (secular), 2005 only', {
+  expect_true(
+    all.equal(
+      testData[
+        wmmVersion == 'WMM2005'
+        , mget(vectorDotFields)
+      ],
+      calculatedData[
+        wmmVersion == 'WMM2005'
+        , mget(vectorDotFields)
+      ],
+      # Setting tolerance to 0.01 due to small precision provided for secular
+      # variation test values.
+      tolerance = 1e-2
     )
   )
 })

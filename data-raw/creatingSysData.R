@@ -37,6 +37,7 @@
 # https://www.ngdc.noaa.gov/geomag/WMM/data/WMM2010/WMM2010COF.zip
 # https://www.ngdc.noaa.gov/geomag/WMM/data/WMM2015/WMM2015COF.zip
 # https://www.ngdc.noaa.gov/geomag/WMM/data/WMM2015/WMM2015v2COF.zip
+# https://www.ngdc.noaa.gov/geomag/WMM/data/WMM2020/WMM2020COF.zip
 #
 # The following files are in the extdata folder and are formatted versions of
 # the WMM coefficients.
@@ -45,7 +46,8 @@
   'WMM2005.csv',
   'WMM2010.csv',
   'WMM2015.csv',
-  'WMM2015v2.csv'
+  'WMM2015v2.csv',
+  'WMM2020.csv'
 )
 
 .pathsWMM <- file.path(
@@ -189,12 +191,12 @@ data.table::setkey(
   ]
 )
 
-.kLegendreSequence[, normalizationFactor := NULL]
+# .kLegendreSequence[, normalizationFactor := NULL]
 
 # Restate .kLegendreSequence back as list of vectors to use in downstream
 # loop, i.e., don't lookup values in data.table, just pull the needed values
 # in order of .kLegendreSequence.
-.kLegendreSequence <- as.list(.kLegendreSequence)
+# .kLegendreSequence <- as.list(.kLegendreSequence)
 
 ###############################################################################
 ## Create grid of constants representing Legendre degree and order indices
@@ -219,6 +221,56 @@ filterUnneededIndices <- as.vector(.kDegreeIndexMatrix < .kOrderIndexMatrix)
 .kOrderIndexMatrix[filterUnneededIndices] <- NA
 
 ###############################################################################
+## Create 3-dimensional array to store pre-computed values dependent on Legendre
+## degree and order indices
+
+.kLegendreComponents <- array(dim = c(13, 14, 7))
+.kIndices <- as.matrix(expand.grid(
+  1:13,
+  0:13
+))
+
+for (
+  index in seq(nrow(.kIndices))
+) {
+  n <- .kIndices[index, 1]
+  m <- .kIndices[index, 2]
+  legendreSubComponents <- .CalcLegendreComponents(n, m)
+  .kLegendreComponents[n, m + 1, ] <- c(
+    legendreSubComponents,
+    rep(0, 7 - length(legendreSubComponents))
+  )
+}
+
+###############################################################################
+
+.kSelectedIndicesM <- array(dim = c(13, 14, 7))
+.kSelectedExponentsM <- array(dim = c(13, 14, 7))
+for (
+  index in seq(nrow(.kIndices))
+) {
+  n <- .kIndices[index, 1]
+  m <- .kIndices[index, 2]
+  mSequence <- seq(from = m, to = n)
+
+  # Keep only the indices where the binomial coefficient,
+  # choose((n + k - 1)/2, n), is non-zero.
+  mSequence <- mSequence[which((n + mSequence - 1) %% 2 == 1)] - m
+
+  mRange <- length(mSequence)
+
+  .kSelectedIndicesM[n, m + 1, ] <- c(
+    mSequence,
+    rep(NA, 7 - mRange)
+  )
+
+  .kSelectedExponentsM[n, m + 1, ] <- c(
+    rep(m/2, mRange),
+    rep(NA, 7 - mRange)
+  )
+}
+
+###############################################################################
 ## Save Objects
 
 # Store objects not directly accessible to user
@@ -232,7 +284,9 @@ usethis::use_data(
   .kEarthSemimajorAxis,
   .kGeomagneticRadius,
   .kRadToDegree,
-  .kLegendreSequence,
+  .kLegendreComponents,
+  .kSelectedIndicesM,
+  .kSelectedExponentsM,
   .kDegreeIndexMatrix,
   .kOrderIndexMatrix,
   .kNormalizationFactors

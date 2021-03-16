@@ -15,10 +15,10 @@ GetMagneticFieldWMM(lon, lat, height, time, wmmVersion = "derived")
 
 \item{time}{Annualized date time. E.g., 2015-02-01 = (2015 + 32/365) = 2015.088}
 
-\item{wmmVersion}{String representing WMM version to use. Must be consistent with \code{time} and one of the following: 'derived', 'WMM2000', 'WMM2005', 'WMM2010', 'WMM2015', 'WMM2015v2'. Default 'derived' value will infer the latest WMM version consistent with \code{time}.}
+\item{wmmVersion}{String representing WMM version to use. Must be consistent with \code{time} and one of the following: 'derived', 'WMM2000', 'WMM2005', 'WMM2010', 'WMM2015', 'WMM2015v2', 'WMM2020'. Default 'derived' value will infer the latest WMM version consistent with \code{time}.}
 }
 \value{
-list of calculated main field and secular variation vector components in nT and nT/yr, resp.: \code{x}, \code{y}, \code{z}, \code{xDot}, \code{yDot}, \code{zDot}
+\code{list} of calculated main field and secular variation vector components in nT and nT/yr, resp. The magnetic element intensities (i.e., horizontal and total intensities, h & f) are in nT and the magnetic element angles (i.e., inclination and declination, i & d) are in degrees, with their secular variation in nT/yr and deg/yr, resp.: \code{x}, \code{y}, \code{z}, \code{xDot}, \code{yDot}, \code{zDot}, \code{h}, \code{f}, \code{i}, \code{d}, \code{hDot}, \code{fDot}, \code{iDot}, \code{dDot}
 }
 \description{
 Function that takes in geodetic GPS location and annualized time, and returns the expected magnetic field from WMM.
@@ -28,17 +28,67 @@ GetMagneticFieldWMM(
    lon = 240,
    lat = -80,
    height = 1e5,
-   time = 2017.5,
-   wmmVersion = 'WMM2015'
+   time = 2022.5,
+   wmmVersion = 'WMM2020'
 )
 
 ## Expected output
-# X = 5683.51754 95763 nT
-# Y = 14808.84920 23104 nT
-# Z = -50163.01336 54779 nT
+# x = 5814.9658886215 nT
+# y = 14802.9663839328 nT
+# z = -49755.3119939183 nT
+# xDot = 28.0381961827 nT/yr
+# yDot = 1.3970624624 nT/yr
+# zDot = 85.6309533031 nT/yr
+# h = 15904.1391483373 nT
+# f = 52235.3588449608 nT
+# i = -72.27367 deg
+# d = 68.55389 deg
+# hDot = 11.5518244235 nT/yr
+# fDot = -78.0481471753 nT/yr
+# iDot = 0.04066726 deg/yr
+# dDot = -0.09217566 deg/yr
 
-## Calculated Output
-# X = 5683.518 nT
-# Y = 14808.85 nT
-# Z = -50163.01 nT
+## Calculated output
+#$x
+#[1] 5814.966
+
+#$y
+#[1] 14802.97
+
+#$z
+#[1] -49755.31
+
+#$xDot
+#[1] 28.0382
+
+#$yDot
+#[1] 1.397062
+
+#$zDot
+#[1] 85.63095
+
+#$h
+#[1] 15904.14
+
+#$f
+#[1] 52235.36
+
+#$i
+#[1] -72.27367
+
+#$d
+#[1] 68.55389
+
+#$hDot
+#[1] 11.55182
+
+#$fDot
+#[1] -78.04815
+
+#$iDot
+#[1] 0.04066726
+
+#$dDot
+#[1] -0.09217566
+
 }

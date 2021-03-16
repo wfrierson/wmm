@@ -57,9 +57,9 @@
   zGeodetic <- xGeocentric * sinDeltLat + zGeocentric * cosDeltLat
 
   output <- list(
-    'X' = xGeodetic,
-    'Y' = yGeodetic,
-    'Z' = zGeodetic
+    'x' = xGeodetic,
+    'y' = yGeodetic,
+    'z' = zGeodetic
   )
   return(output)
 }
@@ -94,28 +94,38 @@
 
   radiusRatioPower <- (.kGeomagneticRadius / radius) ^ (.kDegreeIndexMatrix + 2)
 
-  xGeocentric <- -radiusRatioPower *
-    (gaussCoef[['g']] * cosLonM + gaussCoef[['h']] * sinLonM) *
-    legendreTable[['Derivative Schmidt P']] * cos(latGC)
+  gaussCoefGCosLonM <- gaussCoef[['g']] * cosLonM
+  gaussCoefGSinLonM <- gaussCoef[['g']] * sinLonM
+  gaussCoefHCosLonM <- gaussCoef[['h']] * cosLonM
+  gaussCoefHSinLonM <- gaussCoef[['h']] * sinLonM
+
+  gaussCoefGDot0CosLonM <- gaussCoef[['gDot0']] * cosLonM
+  gaussCoefGDot0SinLonM <- gaussCoef[['gDot0']] * sinLonM
+  gaussCoefHDot0CosLonM <- gaussCoef[['hDot0']] * cosLonM
+  gaussCoefHDot0SinLonM <- gaussCoef[['hDot0']] * sinLonM
+
+  xGeocentric <- -radiusRatioPower * (
+    gaussCoefGCosLonM + gaussCoefHSinLonM
+  ) * legendreTable[['Derivative Schmidt P']] * cos(latGC)
 
   yGeocentric <- radiusRatioPower * .kOrderIndexMatrix * (
-    gaussCoef[['g']] * sinLonM - gaussCoef[['h']] * cosLonM
+    gaussCoefGSinLonM - gaussCoefHCosLonM
   ) * legendreTable[['Schmidt P']] / cos(latGC)
 
-  zGeocentric <- -(.kDegreeIndexMatrix + 1) * radiusRatioPower *
-    (gaussCoef[['g']] * cosLonM + gaussCoef[['h']] * sinLonM) *
-    legendreTable[['Schmidt P']]
+  zGeocentric <- -(.kDegreeIndexMatrix + 1) * radiusRatioPower * (
+    gaussCoefGCosLonM + gaussCoefHSinLonM
+  ) * legendreTable[['Schmidt P']]
 
   xDotGeocentric <- -radiusRatioPower * (
-    gaussCoef[['gDot0']] * cosLonM + gaussCoef[['hDot0']] * sinLonM
+    gaussCoefGDot0CosLonM + gaussCoefHDot0SinLonM
   ) * legendreTable[['Derivative Schmidt P']] * cos(latGC)
 
   yDotGeocentric <- radiusRatioPower * .kOrderIndexMatrix * (
-    gaussCoef[['gDot0']] * sinLonM - gaussCoef[['hDot0']] * cosLonM
+    gaussCoefGDot0SinLonM - gaussCoefHDot0CosLonM
   ) * legendreTable[['Schmidt P']] / cos(latGC)
 
   zDotGeocentric <- -(.kDegreeIndexMatrix + 1) * radiusRatioPower * (
-    gaussCoef[['gDot0']] * cosLonM + gaussCoef[['hDot0']] * sinLonM
+    gaussCoefGDot0CosLonM + gaussCoefHDot0SinLonM
   ) * legendreTable[['Schmidt P']]
 
   # Package the sum of geocentric values with deltaLatitude to later calculate

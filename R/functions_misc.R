@@ -4,8 +4,13 @@
 #'
 #' @return List of reference year and compatible WMM versions inferred from \code{time}.
 .DeriveVersionInfo <- function(t) {
-  output <- if(t >= 2020) {
+  output <- if(t >= 2025) {
     stop('Time value not supported in current version of wmm package.')
+  } else if(t >= 2020 & t < 2025) {
+    list(
+      'year' = 2020,
+      'version' = 'WMM2020'
+    )
   } else if(t >= 2015 & t < 2020) {
     list(
       'year' = 2015,
@@ -52,4 +57,23 @@
   }
 
   return(derivedVersionInfo)
+}
+
+
+#' Check if given horizontal intensity triggers a blackout zone
+#'
+#' @param h horizontal intensity, \code{numeric}
+#'
+#' @return \code{warning} if warranted
+#'
+.CheckBlackoutZone <- function(h) {
+  if (h < 2000) {
+    warning(
+      'Location is in the blackout zone around the magnetic pole as defined by the WMM military specification (https://www.ngdc.noaa.gov/geomag/WMM/data/MIL-PRF89500B.pdf). Compass accuracy is highly degraded in this region.'
+    )
+  } else if (h < 6000) {
+    warning(
+      'Location is approaching the blackout zone around the magnetic pole as defined by the WMM military specification (https://www.ngdc.noaa.gov/geomag/WMM/data/MIL-PRF89500B.pdf). Compass accuracy may be degraded in this region.'
+    )
+  }
 }

@@ -2,7 +2,7 @@
 % Please edit documentation in R/functions_wmm.R
 \name{.CalculateMagneticField}
 \alias{.CalculateMagneticField}
-\title{Calculate Expected Magnetic Field from WMM2015}
+\title{Calculate Expected Magnetic Field from WMM2020}
 \usage{
 .CalculateMagneticField(lon, latGD, latGC, radius, time,
   wmmVersion = "derived")
@@ -18,11 +18,11 @@
 
 \item{time}{Annualized date time. E.g., 2015-02-01 = (2015 + 32/365) = 2015.088}
 
-\item{wmmVersion}{String representing WMM version to use. Must be consistent with \code{time} and one of the following: 'derived', 'WMM2000', 'WMM2005', 'WMM2010', 'WMM2015', 'WMM2015v2'. Default 'derived' value will infer the latest WMM version consistent with \code{time}.}
+\item{wmmVersion}{String representing WMM version to use. Must be consistent with \code{time} and one of the following: 'derived', 'WMM2005', 'WMM2010', 'WMM2015', 'WMM2015v2', 'WMM2020'. Default 'derived' value will infer the latest WMM version consistent with \code{time}.}
 }
 \value{
-Expected magnetic field from WMM2015 expressed as a vector, \eqn{m_{\lambda_t,\varphi_t,h_t,t}^{WMM}}{m_wmm(lambda_t, phi_t, h_t, t)}
+Expected magnetic field from WMM2020, \eqn{m_{\lambda_t,\varphi_t,h_t,t}^{WMM}}{m_wmm(lambda_t, phi_t, h_t, t)}. \code{list}
 }
 \description{
-Calculate the magnetic field for a given location and time using the fitted spherical harmonic model from the 2015 World Magnetic Model.
+Calculate the magnetic field for a given location and time using the fitted spherical harmonic model from the 2020 World Magnetic Model.
 }

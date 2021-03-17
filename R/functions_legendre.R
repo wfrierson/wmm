@@ -1,8 +1,8 @@
 #' Compute Legendre Components
 #'
-#' Function that computes the components of the associated Legendre function, \eqn{P_{n,m}(\mu)}{P_{n,m}(mu)}, only dependent on (degree, order) indices. This function is only used to precompute values.
+#' Function that computes the components of the associated Legendre function, \eqn{P_{n,m}(\mu)}{P(mu, n, m)}, only dependent on (degree, order) indices. This function is only used to precompute values.
 #'
-#' The underlying equation used is: P_{n,m}(x)=(-1)^{m}\cdot 2^{n}\cdot (1-x^{2})^{m/2}\cdot \sum _{k=m}^{n}{\frac {k!}{(k-m)!}}\cdot x^{k-m}\cdot {\binom {n}{k}}{\binom {\frac {n+k-1}{2}}{n}}
+#' The underlying equation used is: \deqn{P(x, n, m)=(-1)^m * 2^n * (1-x^2)^(m/2) * sum(for m <= k <= n: k!/(k-m)! * x^(k-m) * choose(n, k) * choose((n+k-1)/2, n))}
 #'
 #' @param n degree of associated Legendre function
 #' @param m order of associated Legendre function
@@ -39,7 +39,7 @@
 #'
 #' Function that computes the polynomial components of \code{mu} that are paired with the output of \code{.CalcLegendreComponents} to create the indiviudal components of the associated Legendre function, \eqn{P_{n,m}(\mu)}{P_{n,m}(mu)}.
 #'
-#' The underlying equation used is: P_{n,m}(x)=(-1)^{m}\cdot 2^{n}\cdot (1-x^{2})^{m/2}\cdot \sum _{k=m}^{n}{\frac {k!}{(k-m)!}}\cdot x^{k-m}\cdot {\binom {n}{k}}{\binom {\frac {n+k-1}{2}}{n}}
+#' The underlying equation used is: \deqn{P(x, n, m)=(-1)^m * 2^n * (1-x^2)^(m/2) * sum(for m <= k <= n: k!/(k-m)! * x^(k-m) * choose(n, k) * choose((n+k-1)/2, n))}
 #'
 #' @param mu Function argument to \eqn{P_{n,m}(\mu)}{P_{n,m}(mu)}
 .CalcPolynomialComponents <- function(mu) {
@@ -53,7 +53,7 @@
 #'
 #' Procedure that computes the associated Legendre function, \eqn{P_{n,m}(\mu)}{P_{n,m}(mu)}, given a sequence of (degree, order) indices and function argument \eqn{\mu}{mu}. This is computed via a closed-form equation.
 #'
-#' The underlying equation used is: P_{n,m}(x)=(-1)^{m}\cdot 2^{n}\cdot (1-x^{2})^{m/2}\cdot \sum _{k=m}^{n}{\frac {k!}{(k-m)!}}\cdot x^{k-m}\cdot {\binom {n}{k}}{\binom {\frac {n+k-1}{2}}{n}}
+#' The underlying equation used is: \deqn{P(x, n, m)=(-1)^m * 2^n * (1-x^2)^(m/2) * sum(for m <= k <= n: k!/(k-m)! * x^(k-m) * choose(n, k) * choose((n+k-1)/2, n))}
 #'
 #' @param mu Function argument to \eqn{P_{n,m}(\mu)}{P_{n,m}(mu)}
 .CalcLegendre <- function(mu) {

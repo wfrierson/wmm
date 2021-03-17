@@ -12,8 +12,8 @@
 \item{m}{order of associated Legendre function}
 }
 \description{
-Function that computes the components of the associated Legendre function, \eqn{P_{n,m}(\mu)}{P_{n,m}(mu)}, only dependent on (degree, order) indices. This function is only used to precompute values.
+Function that computes the components of the associated Legendre function, \eqn{P_{n,m}(\mu)}{P(mu, n, m)}, only dependent on (degree, order) indices. This function is only used to precompute values.
 }
 \details{
-The underlying equation used is: P_{n,m}(x)=(-1)^{m}\cdot 2^{n}\cdot (1-x^{2})^{m/2}\cdot \sum _{k=m}^{n}{\frac {k!}{(k-m)!}}\cdot x^{k-m}\cdot {\binom {n}{k}}{\binom {\frac {n+k-1}{2}}{n}}
+The underlying equation used is: \deqn{P(x, n, m)=(-1)^m * 2^n * (1-x^2)^(m/2) * sum(for m <= k <= n: k!/(k-m)! * x^(k-m) * choose(n, k) * choose((n+k-1)/2, n))}
 }

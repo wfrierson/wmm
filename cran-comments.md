@@ -26,3 +26,8 @@ Complied and resubmitted. Also, added Language parameter in DESCRIPTION and simp
 
 ### Submission 4
 Submission date: 2021-03-17
+
+### Submission 5
+Submission date: 2021-03-17
+
+Notes: Prior CRAN reviewer recommended changing CRAN URLs in README to the canonical form. Complied and resubmitted.

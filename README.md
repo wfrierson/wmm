@@ -2,8 +2,8 @@
 [![Travis build status](https://travis-ci.org/wfrierson/wmm.svg?branch=master)](https://travis-ci.org/wfrierson/wmm)
 [![GitHub license](https://img.shields.io/github/license/Naereen/StrapDown.js.svg)](/LICENSE)
 [![Coverage Status](https://coveralls.io/repos/github/wfrierson/wmm/badge.svg?branch=master)](https://coveralls.io/github/wfrierson/wmm?branch=master)
-[![CRAN version](https://www.r-pkg.org/badges/version/wmm)](https://cran.r-project.org/web/packages/wmm/index.html)
-[![CRAN downloads](https://cranlogs.r-pkg.org/badges/grand-total/wmm)](https://cran.r-project.org/web/packages/wmm/index.html)
+[![CRAN version](https://www.r-pkg.org/badges/version/wmm)](https://cran.r-project.org/package=wmm)
+[![CRAN downloads](https://cranlogs.r-pkg.org/badges/grand-total/wmm)](https://cran.r-project.org/package=wmm)
 <!-- badges: end -->
 
 # wmm

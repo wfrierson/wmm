@@ -23,3 +23,6 @@ Submission date: 2019-11-16
 
 Notes: Prior CRAN reviewer recommended changes to DESCRIPTION Title and Description sections.
 Complied and resubmitted. Also, added Language parameter in DESCRIPTION and simplified README.
+
+### Submission 4
+Submission date: 2021-03-16

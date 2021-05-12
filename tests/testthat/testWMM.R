@@ -1,26 +1,5 @@
 testthat::context('Testing WMM...')
 
-# Define path to WMM test data
-folderExtdata <- file.path(
-  system.file(package = 'wmm'),
-  'extdata'
-)
-
-pathTestData <- file.path(
-  folderExtdata,
-  'WMMTestValues.csv'
-)
-
-# Import WMM test data
-testData <- data.table::fread(
-  pathTestData,
-  sep = '|',
-  header = TRUE,
-  stringsAsFactors = FALSE
-)[
-  , testID := .I
-]
-
 # Define character vectors used for unit tests, which may be changed
 keyFields <- c('testID', 'wmmVersion')
 vectorFields <- c('x', 'y', 'z')

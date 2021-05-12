@@ -229,7 +229,8 @@ GetMagneticFieldWMM <- function(
   if (!is.numeric(time)) {
     if (inherits(time, c("POSIXt", "Date"))) {
       YrJul <- with(as.POSIXlt(time), c(1900 + year, yday))
-      leapyear <- +((year %% 4 == 0) & ((!year %% 100 == 0) | (year %% 400 == 0)))
+      # https://www.timeanddate.com/date/leapyear.html#rules
+      leapyear <- +((YrJul[1] %% 4 == 0) & ((!YrJul[1] %% 100 == 0) | (YrJul[1] %% 400 == 0)))
       ydays <- 365 + leapyear
       time <- YrJul[1] + YrJul[2]/ydays
     } else {

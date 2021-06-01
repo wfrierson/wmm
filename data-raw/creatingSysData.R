@@ -31,14 +31,6 @@
   'extdata'
 )
 
-# The underlying data is found here:
-# https://www.ngdc.noaa.gov/geomag/WMM/data/WMMReports/wmm2000.pdf
-# https://www.ngdc.noaa.gov/geomag/WMM/data/WMM2005/TRWMM_2005.pdf
-# https://www.ngdc.noaa.gov/geomag/WMM/data/WMM2010/WMM2010COF.zip
-# https://www.ngdc.noaa.gov/geomag/WMM/data/WMM2015/WMM2015COF.zip
-# https://www.ngdc.noaa.gov/geomag/WMM/data/WMM2015/WMM2015v2COF.zip
-# https://www.ngdc.noaa.gov/geomag/WMM/data/WMM2020/WMM2020COF.zip
-#
 # The following files are in the extdata folder and are formatted versions of
 # the WMM coefficients.
 .filenamesWMM <- c(

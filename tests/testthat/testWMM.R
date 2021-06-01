@@ -1,26 +1,5 @@
 testthat::context('Testing WMM...')
 
-# Define path to WMM test data
-folderExtdata <- file.path(
-  system.file(package = 'wmm'),
-  'extdata'
-)
-
-pathTestData <- file.path(
-  folderExtdata,
-  'WMMTestValues.csv'
-)
-
-# Import WMM test data
-testData <- data.table::fread(
-  pathTestData,
-  sep = '|',
-  header = TRUE,
-  stringsAsFactors = FALSE
-)[
-  , testID := .I
-]
-
 # Define character vectors used for unit tests, which may be changed
 keyFields <- c('testID', 'wmmVersion')
 vectorFields <- c('x', 'y', 'z')
@@ -32,17 +11,63 @@ testFields <- c(
 calculatedFields <- paste0(testFields, 'Calculated')
 testthatFields <- c(keyFields, testFields)
 
-# Calculate magnetic field values
-testData[
-  , (calculatedFields) := GetMagneticFieldWMM(
-    lon = lon,
-    lat = lat,
-    height = height * 1e3,
-    time = year,
-    wmmVersion = wmmVersion
-  )
-  , by = testID
-]
+# Calculate magnetic field values, warning about 'is in'
+testthat::test_that("warns: is in the blackout zone", {
+  for (rn in which(testData$h < 2000)) {
+    testthat::expect_warning(
+      testData[
+        rn
+        , (calculatedFields) := GetMagneticFieldWMM(
+          lon = lon,
+          lat = lat,
+          height = height * 1e3,
+          time = year,
+          wmmVersion = wmmVersion
+        )
+        , by = testID
+      ]
+     , "Location is in the blackout zone")
+  }
+})
+
+# Calculate magnetic field values, warning about 'is approaching'
+testthat::test_that("warns: is approaching the blackout zone", {
+  for (rn in which(testData$h >= 2000 & testData$h < 6000)) {
+    testthat::expect_warning(
+      testData[
+        rn
+        , (calculatedFields) := GetMagneticFieldWMM(
+          lon = lon,
+          lat = lat,
+          height = height * 1e3,
+          time = year,
+          wmmVersion = wmmVersion
+        )
+        , by = testID
+      ]
+     , "Location is approaching the blackout zone")
+  }
+})
+
+# Calculate magnetic field values, no warning
+testthat::test_that("no warnings", {
+  testthat::expect_silent(
+    testData[
+      h >= 6000
+      , (calculatedFields) := GetMagneticFieldWMM(
+        lon = lon,
+        lat = lat,
+        height = height * 1e3,
+        time = year,
+        wmmVersion = wmmVersion
+      )
+      , by = testID
+    ])
+})
+
+testthat::test_that("nothing missed", {
+  expect_false(anyNA(testData[, c(calculatedFields), with = FALSE]))
+})
 
 # Copy table to help with set of test fields
 calculatedData <- data.table::copy(testData)[

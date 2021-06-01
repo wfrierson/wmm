@@ -143,7 +143,7 @@
 #' @param lon GPS longitude
 #' @param lat GPS latitude, geodetic
 #' @param height GPS height in meters above ellipsoid
-#' @param time Annualized date time. E.g., 2015-02-01 = (2015 + 32/365) = 2015.088
+#' @param time Annualized date time. E.g., 2015-02-01 = (2015 + 32/365) = 2015.088; optionally an object (length 1) of class 'POSIXt' or 'Date'
 #' @param wmmVersion String representing WMM version to use. Must be consistent with \code{time} and one of the following: 'derived', 'WMM2000', 'WMM2005', 'WMM2010', 'WMM2015', 'WMM2015v2', 'WMM2020'. Default 'derived' value will infer the latest WMM version consistent with \code{time}.
 #'
 #' @return \code{list} of calculated main field and secular variation vector components in nT and nT/yr, resp. The magnetic element intensities (i.e., horizontal and total intensities, h & f) are in nT and the magnetic element angles (i.e., inclination and declination, i & d) are in degrees, with their secular variation in nT/yr and deg/yr, resp.: \code{x}, \code{y}, \code{z}, \code{xDot}, \code{yDot}, \code{zDot}, \code{h}, \code{f}, \code{i}, \code{d}, \code{hDot}, \code{fDot}, \code{iDot}, \code{dDot}
@@ -225,6 +225,21 @@ GetMagneticFieldWMM <- function(
   wmmVersion = 'derived'
 ) {
   geocentric <- .ConvertGeodeticToGeocentricGPS(lat, height)
+
+  if (!is.numeric(time)) {
+    if (inherits(time, c("POSIXt", "Date"))) {
+      YrJul <- with(
+        as.POSIXlt(time),
+        c(1900 + year, yday + hour/24 + min/1440 + sec/86400)
+      )
+      # https://www.timeanddate.com/date/leapyear.html#rules
+      leapyear <- +((YrJul[1] %% 4 == 0) & ((!YrJul[1] %% 100 == 0) | (YrJul[1] %% 400 == 0)))
+      ydays <- 365 + leapyear
+      time <- YrJul[1] + YrJul[2]/ydays
+    } else {
+      stop("unrecognized 'time': ", paste(sQuote(class(time)), collapse = ", "))
+    }
+  }
 
   output <- .CalculateMagneticField(
     lon = lon,

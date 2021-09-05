@@ -1,5 +1,5 @@
 <!-- badges: start -->
-[![Travis build status](https://travis-ci.org/wfrierson/wmm.svg?branch=master)](https://travis-ci.org/wfrierson/wmm)
+[![Travis build status](https://travis-ci.com/wfrierson/wmm.svg?branch=master)](https://travis-ci.com/wfrierson/wmm)
 [![GitHub license](https://img.shields.io/github/license/Naereen/StrapDown.js.svg)](/LICENSE)
 [![Coverage Status](https://coveralls.io/repos/github/wfrierson/wmm/badge.svg?branch=master)](https://coveralls.io/github/wfrierson/wmm?branch=master)
 [![CRAN version](https://www.r-pkg.org/badges/version/wmm)](https://cran.r-project.org/package=wmm)
@@ -21,7 +21,7 @@ install.packages('wmm')
 
 # Usage
 
-In v1.1.0, the only exported function is `GetMagneticFieldWMM`, which returns the orthogonal vector components of the main magnetic field (in nT) and secular variation field (in nT/yr) (including the magnetic field elements, _h_, _f_, _i_, and _d_, as well as their secular variation) as predicted by WMM.
+In v1.1.1, the only exported function is `GetMagneticFieldWMM`, which returns the orthogonal vector components of the main magnetic field (in nT) and secular variation field (in nT/yr) as predicted by WMM. The magnetic field elements, _h_, _f_, _i_, and _d_ (as well as their secular variation) are returned as well.
 
 Example usage: 
 
@@ -77,7 +77,9 @@ GetMagneticFieldWMM(
 # [1] -0.09217566
 ```
 
-2. Repeat the last calculation but apply it to 2017.5 and use the older coefficients from WMM2015 that were replaced by WMM2015v2.
+2. Repeat the last calculation but apply it to 2017.5 and use the older coefficients from WMM2015 that were replaced by WMM2015v2. 
+
+__Note: The WMM is intended to be predictive. By using an older set of coefficients, the returned values will reflect the older predictions. If users need a good model of the Earth's magnetic field prior to the current WMM, please see the latest [IGRF](https://www.ngdc.noaa.gov/IAGA/vmod/igrf.html) model, which is retroactively updated. The `wmmVersion` feature is intended for reproducibility purposes only.__
 ``` r
 GetMagneticFieldWMM(
   lon = 240,

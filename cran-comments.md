@@ -36,3 +36,8 @@ Notes: Prior CRAN reviewer recommended changing CRAN URLs in README to the canon
 Submission date: 2021-09-04
 
 Notes: A NOAA researcher requested that I remove the coefficient files and URLs from the package, as well as recommend users to IGRF model for historical magnetic field calculations.
+
+### Submission 7
+Submission date: 2021-09-05
+
+Notes: Removed LazyData line in DESCRIPTION to comply with latest CRAN requirements.

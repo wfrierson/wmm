@@ -31,8 +31,9 @@
   'extdata'
 )
 
-# The following files are in the extdata folder and are formatted versions of
-# the WMM coefficients.
+# The following files are formatted versions of WMM coefficients.
+# Please see the WMM download page to obtain the official coefficient files:
+#    https://www.ngdc.noaa.gov/geomag/WMM/soft.shtml
 .filenamesWMM <- c(
   'WMM2000.csv',
   'WMM2005.csv',

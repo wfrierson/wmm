@@ -21,7 +21,6 @@ Description: Calculate magnetic field at a given location and time according to
   and Macmillian et al (2000) <https://www.ngdc.noaa.gov/geomag/WMM/data/WMMReports/wmm2000.pdf>.
 License: MIT + file LICENSE
 Encoding: UTF-8
-LazyData: true
 Depends: 
   R (>= 2.10)
 RoxygenNote: 6.1.1

@@ -1,3 +1,7 @@
+# wmm 1.1.1
+1. Removed WMM coefficient files and URLs.
+2. Adding note to README re: WMM output as predictions and referenced IGRF.
+
 # wmm 1.1.0
 1. Updated Gauss coefficients for WMM2020.
 2. Significantly improved numerical stability by using closed-form equation for associated Legendre polynomials, instead of recursion.

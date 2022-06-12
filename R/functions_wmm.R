@@ -2,6 +2,8 @@
 #'
 #' Calculate the magnetic elements (i.e., horizontal intensity, total intensity, inclination, declination, and their secular variation) for given magnetic orthogonal components
 #'
+#' @noRd
+#'
 #' @param orthComps named \code{list} containing magnetic orthogonal components
 #'
 #' @return Expected magnetic components from WMM2020. \code{list}
@@ -52,6 +54,8 @@
 #' Calculate Expected Magnetic Field from WMM2020
 #'
 #' Calculate the magnetic field for a given location and time using the fitted spherical harmonic model from the 2020 World Magnetic Model.
+#'
+#' @noRd
 #'
 #' @param lon GPS longitude
 #' @param latGD GPS latitude, geodetic

@@ -1,5 +1,7 @@
 #' Derive WMM version based on given time
 #'
+#' @noRd
+#'
 #' @param t Annualized date time. E.g., 2015-02-01 = (2015 + 32/365) = 2015.088
 #'
 #' @return List of reference year and compatible WMM versions inferred from \code{time}.
@@ -35,6 +37,8 @@
 
 #' Check if given time is consistent with available WMM versions
 #'
+#' @noRd
+#'
 #' @param t Annualized date time. E.g., 2015-02-01 = (2015 + 32/365) = 2015.088
 #' @param wmmVersion String representing WMM version to use. Must be consistent with \code{time} and one of the following: 'derived', 'WMM2000', 'WMM2005', 'WMM2010', 'WMM2015', 'WMM2015v2'.
 .CheckVersionWMM <- function(t, wmmVersion) {
@@ -61,6 +65,8 @@
 
 
 #' Check if given horizontal intensity triggers a blackout zone
+#'
+#' @noRd
 #'
 #' @param h horizontal intensity, \code{numeric}
 #'

@@ -1,3 +1,9 @@
+# wmm 1.1.2
+1. Added HTML vignette.
+2. Added @noRd flag for internal functions.
+3. Added docs/CONTRIBUTING.md
+4. Added codemeta.json file.
+
 # wmm 1.1.1
 1. Removed WMM coefficient files and URLs.
 2. Adding note to README re: WMM output as predictions and referenced IGRF.

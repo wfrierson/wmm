@@ -1,4 +1,5 @@
 <!-- badges: start -->
+[![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 [![Travis build status](https://app.travis-ci.com/wfrierson/wmm.svg?branch=main&status=passed)](https://app.travis-ci.com/github/wfrierson/wmm)
 [![GitHub license](https://img.shields.io/github/license/Naereen/StrapDown.js.svg)](/LICENSE)
 [![Coverage Status](https://coveralls.io/repos/github/wfrierson/wmm/badge.svg?branch=master)](https://coveralls.io/github/wfrierson/wmm?branch=master)
@@ -21,7 +22,7 @@ install.packages('wmm')
 
 # Usage
 
-In v1.1.1, the only exported function is `GetMagneticFieldWMM`, which returns the orthogonal vector components of the main magnetic field (in nT) and secular variation field (in nT/yr) as predicted by WMM. The magnetic field elements, _h_, _f_, _i_, and _d_ (as well as their secular variation) are returned as well.
+In v1.1.2, the only exported function is `GetMagneticFieldWMM`, which returns the orthogonal vector components of the main magnetic field (in nT) and secular variation field (in nT/yr) as predicted by WMM. The magnetic field elements, _h_, _f_, _i_, and _d_ (as well as their secular variation) are returned as well.
 
 Example usage: 
 

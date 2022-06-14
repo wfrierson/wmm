@@ -1,7 +1,7 @@
 Package: wmm
 Type: Package
 Title: World Magnetic Model
-Version: 1.1.1
+Version: 1.1.2
 Authors@R: person("Will", "Frierson", email = "will.frierson@gmail.com",
   role = c("aut", "cre"))
 Maintainer: Will Frierson <will.frierson@gmail.com>
@@ -25,8 +25,11 @@ Depends:
   R (>= 2.10)
 RoxygenNote: 6.1.1
 Suggests:
-  testthat (>= 2.0.1),
-  data.table (>= 1.12.2)
+    testthat (>= 2.0.1),
+    data.table (>= 1.12.2),
+    knitr (>= 1.33),
+    rmarkdown (>= 2.14)
 URL: https://github.com/wfrierson/wmm
 BugReports: https://github.com/wfrierson/wmm/issues
 Language: en-US
+VignetteBuilder: knitr

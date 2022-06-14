@@ -4,6 +4,8 @@
 #'
 #' The underlying equation used is: \deqn{P(x, n, m)=(-1)^m * 2^n * (1-x^2)^(m/2) * sum(for m <= k <= n: k!/(k-m)! * x^(k-m) * choose(n, k) * choose((n+k-1)/2, n))}
 #'
+#' @noRd
+#'
 #' @param n degree of associated Legendre function
 #' @param m order of associated Legendre function
 .CalcLegendreComponents <- function(n, m) {
@@ -41,6 +43,8 @@
 #'
 #' The underlying equation used is: \deqn{P(x, n, m)=(-1)^m * 2^n * (1-x^2)^(m/2) * sum(for m <= k <= n: k!/(k-m)! * x^(k-m) * choose(n, k) * choose((n+k-1)/2, n))}
 #'
+#' @noRd
+#'
 #' @param mu Function argument to \eqn{P_{n,m}(\mu)}{P_{n,m}(mu)}
 .CalcPolynomialComponents <- function(mu) {
   output <- (1 - mu^2)^.kSelectedExponentsM * mu^.kSelectedIndicesM
@@ -54,6 +58,8 @@
 #' Procedure that computes the associated Legendre function, \eqn{P_{n,m}(\mu)}{P_{n,m}(mu)}, given a sequence of (degree, order) indices and function argument \eqn{\mu}{mu}. This is computed via a closed-form equation.
 #'
 #' The underlying equation used is: \deqn{P(x, n, m)=(-1)^m * 2^n * (1-x^2)^(m/2) * sum(for m <= k <= n: k!/(k-m)! * x^(k-m) * choose(n, k) * choose((n+k-1)/2, n))}
+#'
+#' @noRd
 #'
 #' @param mu Function argument to \eqn{P_{n,m}(\mu)}{P_{n,m}(mu)}
 .CalcLegendre <- function(mu) {

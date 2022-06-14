@@ -21,6 +21,8 @@
 #'     \item Alex Breeze for tech reviewing the original version of this code, years ago
 #' }
 #'
+#' @noRd
+#'
 #' @docType package
 #' @name wmm
 

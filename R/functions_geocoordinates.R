@@ -2,6 +2,8 @@
 #'
 #' Calculate radius of curvature of prime vertical at given geodetic latitude.
 #'
+#' @noRd
+#'
 #' @param latitudeGD Geodetic latitude in decimal degrees
 #' @return Radius of curvature of prime vertical at given geodetic latitude
 .CalculateRadiusCurvature <- function(latitudeGD) {
@@ -14,6 +16,8 @@
 #' Convert from Geodetic to Geocentric Coordinates
 #'
 #' Convert geodetic coordinates to geocentric coordinates
+#'
+#' @noRd
 #'
 #' @param latitudeGD Geodetic latitude in decimal degrees
 #' @param height Height in meters above ellipsoid (not mean sea level)
@@ -35,6 +39,8 @@
 #' Geocentric Coordinates to Geodetic Coordinates
 #'
 #' Convert Geocentric Coordinates to Geodetic Coordinates.
+#'
+#' @noRd
 #'
 #' @param xGeocentric X-coordinate in geocentric system
 #' @param yGeocentric Y-coordinate in geocentric system
@@ -65,6 +71,8 @@
 }
 
 #' Calculate sum of geocentric field components
+#'
+#' @noRd
 #'
 #' @param legendreTable \code{data.table} modified by \code{.CalculateSchmidtLegendreDerivative}
 #' @param gaussCoef Gauss coefficients as calculated by \code{.CalculateGaussCoef}

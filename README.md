@@ -10,7 +10,7 @@
 # wmm
 The [World Magnetic Model](https://www.ngdc.noaa.gov/geomag/WMM/DoDWMM.shtml) (WMM)
 
-The purpose of this package is to make accessible the magnetic field vector components from WMM. The supported date ranges for `wmm` run from 2000-01-01 to 2024-12-31. The magnetic field calculations across this time range agree with the official WMM test values to the precision provided by the authors. I will update this package for each new WMM version. For those that prefer a non-R solution, the authors of WMM provide free software to calculate magnetic field, which can be found [here](https://www.ngdc.noaa.gov/geomag/WMM/soft.shtml).
+The purpose of this package is to make accessible the magnetic field vector components from WMM. The supported date ranges for `wmm` run from 2000-01-01 to 2024-12-31. The magnetic field calculations across this time range agree with the official WMM test values to the precision provided by the authors. I will update this package for each new WMM version. For those that prefer a non-R solution, the authors of WMM provide [free software to calculate magnetic field](https://www.ngdc.noaa.gov/geomag/WMM/soft.shtml).
 
 # Installation
 

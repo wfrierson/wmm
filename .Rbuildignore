@@ -4,8 +4,8 @@
 ^\.Rproj\.user$
 ^packrat/
 ^\.Rprofile$
-^\.travis\.yml$
 ^data-raw/
 cran-comments.md
 ^CRAN-RELEASE$
 ^codemeta\.json$
+^\.github$

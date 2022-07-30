@@ -22,11 +22,15 @@ jobs:
           use-public-rspm: true
 
       - name: Install testthat
-        run: install.packages("testthat")
+        run: |
+          options(repos = c(CRAN = "https://cloud.r-project.org"))
+          install.packages("testthat")
         shell: Rscript {0}
 
       - name: Install data.table
-        run: install.packages("data.table")
+        run: |
+          options(repos = c(CRAN = "https://cloud.r-project.org"))
+          install.packages("data.table")
         shell: Rscript {0}
 
       - name: Run unit tests

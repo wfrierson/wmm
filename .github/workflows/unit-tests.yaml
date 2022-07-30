@@ -30,8 +30,8 @@ jobs:
         shell: Rscript {0}
 
       - name: Run unit tests
-      run: |
-        library(testthat)
-        library(data.table)
-        testthat::test_check('wmm')
-      shell: Rscript {0}
+        run: |
+          library(testthat)
+          library(data.table)
+          testthat::test_check('wmm')
+        shell: Rscript {0}

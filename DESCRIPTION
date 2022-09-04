@@ -28,7 +28,8 @@ Suggests:
     testthat (>= 2.0.1),
     data.table (>= 1.12.2),
     knitr (>= 1.33),
-    rmarkdown (>= 2.14)
+    rmarkdown (>= 2.14),
+    covr (>= 3.3.1)
 URL: https://github.com/wfrierson/wmm
 BugReports: https://github.com/wfrierson/wmm/issues
 Language: en-US

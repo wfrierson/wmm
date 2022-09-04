@@ -1,10 +1,10 @@
 <!-- badges: start -->
 [![Project Status: Active – The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
-[![Travis build status](https://app.travis-ci.com/wfrierson/wmm.svg?branch=main&status=passed)](https://app.travis-ci.com/github/wfrierson/wmm)
 [![GitHub license](https://img.shields.io/github/license/Naereen/StrapDown.js.svg)](/LICENSE)
-[![Coverage Status](https://coveralls.io/repos/github/wfrierson/wmm/badge.svg?branch=master)](https://coveralls.io/github/wfrierson/wmm?branch=master)
 [![CRAN version](https://www.r-pkg.org/badges/version/wmm)](https://cran.r-project.org/package=wmm)
 [![CRAN downloads](https://cranlogs.r-pkg.org/badges/grand-total/wmm)](https://cran.r-project.org/package=wmm)
+[![R-CMD-check](https://github.com/wfrierson/wmm/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/wfrierson/wmm/actions/workflows/R-CMD-check.yaml)
+[![Coveralls test coverage](https://coveralls.io/repos/github/wfrierson/wmm/badge.svg)](https://coveralls.io/r/wfrierson/wmm?branch=main)
 <!-- badges: end -->
 
 # wmm

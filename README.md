@@ -5,6 +5,7 @@
 [![CRAN downloads](https://cranlogs.r-pkg.org/badges/grand-total/wmm)](https://cran.r-project.org/package=wmm)
 [![R-CMD-check](https://github.com/wfrierson/wmm/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/wfrierson/wmm/actions/workflows/R-CMD-check.yaml)
 [![Coveralls test coverage](https://coveralls.io/repos/github/wfrierson/wmm/badge.svg)](https://coveralls.io/r/wfrierson/wmm?branch=main)
+[![Status at rOpenSci Software Peer Review](https://badges.ropensci.org/522_status.svg)](https://github.com/ropensci/software-review/issues/522)
 <!-- badges: end -->
 
 # wmm

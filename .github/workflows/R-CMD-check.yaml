@@ -7,7 +7,7 @@ on:
     branches: [main, master]
   schedule:
     # At 19:30 on Sunday
-    - cron: '30 19 * * sun'
+    - cron: '30 12 * * tue'
 
 name: R-CMD-check
 

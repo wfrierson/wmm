@@ -228,6 +228,19 @@ GetMagneticFieldWMM <- function(
   time,
   wmmVersion = 'derived'
 ) {
+  # Validating inputs
+  if (
+    !(
+      !is.na(lat) & !is.na(lon) & !is.na(height) &
+      !is.infinite(lat) & !is.infinite(lon) & !is.infinite(height) &
+      is.numeric(lat) & is.numeric(lon) & is.numeric(height)
+    )
+  ) {
+    stop(
+      "Please check that 'lat', 'lon', and 'height' inputs are numeric."
+    )
+  }
+
   geocentric <- .ConvertGeodeticToGeocentricGPS(lat, height)
 
   if (!is.numeric(time)) {
@@ -241,7 +254,10 @@ GetMagneticFieldWMM <- function(
       ydays <- 365 + leapyear
       time <- YrJul[1] + YrJul[2]/ydays
     } else {
-      stop("unrecognized 'time': ", paste(sQuote(class(time)), collapse = ", "))
+      stop(
+        "Please check that 'time' input is numeric or in POSIXt or Date formats. Unrecognized 'time' input: ",
+        paste(sQuote(class(time)), collapse = ", ")
+      )
     }
   }
 

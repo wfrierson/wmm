@@ -9,15 +9,22 @@
 <!-- badges: end -->
 
 # wmm
-The [World Magnetic Model](https://www.ngdc.noaa.gov/geomag/WMM/DoDWMM.shtml) (WMM)
+The [World Magnetic Model](https://www.ncei.noaa.gov/products/world-magnetic-model) (WMM)
 
-The purpose of this package is to make accessible the magnetic field vector components from WMM. The supported date ranges for `wmm` run from 2000-01-01 to 2024-12-31. The magnetic field calculations across this time range agree with the official WMM test values to the precision provided by the authors. I will update this package for each new WMM version. For those that prefer a non-R solution, the authors of WMM provide [free software to calculate magnetic field](https://www.ngdc.noaa.gov/geomag/WMM/soft.shtml).
+The purpose of this package is to make accessible the magnetic field vector components from WMM. The supported date ranges for `wmm` run from 2000-01-01 to 2024-12-31. The magnetic field calculations across this time range agree with the official WMM test values to the precision provided by the authors. I will update this package for each new WMM version. For those that prefer a non-R solution, the authors of WMM provide free software to calculate magnetic field on the official website.
 
 # Installation
 
-``` r
+Install from CRAN:
 
+``` 
 install.packages('wmm')
+```
+
+Or, install from GitHub:
+
+``` r
+devtools::install_github('wfrierson/wmm')
 
 ```
 
@@ -29,8 +36,7 @@ Example usage:
 
 1. Calculate expected magnetic field components at a benchmark location, mid 2022. Using the default value for WMM version, this will use the WMM2020 coefficients.
 ``` r
-
-GetMagneticFieldWMM(
+wmm::GetMagneticFieldWMM(
   lon = 240,
   lat = -80,
   height = 1e5,
@@ -83,7 +89,7 @@ GetMagneticFieldWMM(
 
 __Note: The WMM is intended to be predictive. By using an older set of coefficients, the returned values will reflect the older predictions. If users need a good model of the Earth's magnetic field prior to the current WMM, please see the latest [IGRF](https://www.ngdc.noaa.gov/IAGA/vmod/igrf.html) model, which is retroactively updated. The `wmmVersion` feature is intended for reproducibility purposes only.__
 ``` r
-GetMagneticFieldWMM(
+wmm::GetMagneticFieldWMM(
   lon = 240,
   lat = -80,
   height = 1e5,

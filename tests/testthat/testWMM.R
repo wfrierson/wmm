@@ -1,5 +1,3 @@
-testthat::context('Testing WMM...')
-
 # Define character vectors used for unit tests, which may be changed
 keyFields <- c('testID', 'wmmVersion')
 vectorFields <- c('x', 'y', 'z')
@@ -80,7 +78,6 @@ data.table::setnames(
 )
 
 # Perform unit tests
-testthat::context('Testing WMM main field benchmarks...')
 testthat::test_that('WMM Test Values, Not 2005', {
   expect_true(
     all.equal(
@@ -115,7 +112,6 @@ testthat::test_that('WMM Test Values, 2005 only', {
   )
 })
 
-testthat::context('Testing WMM secular variation field benchmarks...')
 testthat::test_that('WMM Test Values (secular), not 2005', {
   expect_true(
     all.equal(

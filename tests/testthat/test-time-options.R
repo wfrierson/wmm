@@ -1,5 +1,3 @@
-testthat::context("Testing 'time' alternatives")
-
 testthat::test_that("'time' options are the same", {
   dat <- testData[ h > 6000, ][ 1, ]
 

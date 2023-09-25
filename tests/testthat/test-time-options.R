@@ -1,4 +1,4 @@
-testthat::test_that("'time' options are the same", {
+test_that("'time' options are the same", {
   dat <- testData[ h > 6000, ][ 1, ]
 
   orig <- expect_silent(

@@ -10,9 +10,9 @@ calculatedFields <- paste0(testFields, 'Calculated')
 testthatFields <- c(keyFields, testFields)
 
 # Calculate magnetic field values, warning about 'is in'
-testthat::test_that("warns: is in the blackout zone", {
+test_that("warns: is in the blackout zone", {
   for (rn in which(testData$h < 2000)) {
-    testthat::expect_warning(
+    expect_warning(
       testData[
         rn
         , (calculatedFields) := GetMagneticFieldWMM(
@@ -29,9 +29,9 @@ testthat::test_that("warns: is in the blackout zone", {
 })
 
 # Calculate magnetic field values, warning about 'is approaching'
-testthat::test_that("warns: is approaching the blackout zone", {
+test_that("warns: is approaching the blackout zone", {
   for (rn in which(testData$h >= 2000 & testData$h < 6000)) {
-    testthat::expect_warning(
+    expect_warning(
       testData[
         rn
         , (calculatedFields) := GetMagneticFieldWMM(
@@ -48,8 +48,8 @@ testthat::test_that("warns: is approaching the blackout zone", {
 })
 
 # Calculate magnetic field values, no warning
-testthat::test_that("no warnings", {
-  testthat::expect_silent(
+test_that("no warnings", {
+  expect_silent(
     testData[
       h >= 6000
       , (calculatedFields) := GetMagneticFieldWMM(
@@ -63,7 +63,7 @@ testthat::test_that("no warnings", {
     ])
 })
 
-testthat::test_that("nothing missed", {
+test_that("nothing missed", {
   expect_false(anyNA(testData[, c(calculatedFields), with = FALSE]))
 })
 
@@ -78,7 +78,7 @@ data.table::setnames(
 )
 
 # Perform unit tests
-testthat::test_that('WMM Test Values, Not 2005', {
+test_that('WMM Test Values, Not 2005', {
   expect_true(
     all.equal(
       testData[
@@ -94,7 +94,7 @@ testthat::test_that('WMM Test Values, Not 2005', {
   )
 })
 
-testthat::test_that('WMM Test Values, 2005 only', {
+test_that('WMM Test Values, 2005 only', {
   expect_true(
     all.equal(
       testData[
@@ -112,7 +112,7 @@ testthat::test_that('WMM Test Values, 2005 only', {
   )
 })
 
-testthat::test_that('WMM Test Values (secular), not 2005', {
+test_that('WMM Test Values (secular), not 2005', {
   expect_true(
     all.equal(
       testData[
@@ -130,7 +130,7 @@ testthat::test_that('WMM Test Values (secular), not 2005', {
   )
 })
 
-testthat::test_that('WMM Test Values (secular), 2005 only', {
+test_that('WMM Test Values (secular), 2005 only', {
   expect_true(
     all.equal(
       testData[

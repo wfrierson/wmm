@@ -275,3 +275,7 @@ GetMagneticFieldWMM <- function(
 
   return(output)
 }
+
+#' @rdname GetMagneticFieldWMM
+#' @export
+wmm <- GetMagneticFieldWMM

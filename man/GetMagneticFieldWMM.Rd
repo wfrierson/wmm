@@ -2,9 +2,12 @@
 % Please edit documentation in R/functions_wmm.R
 \name{GetMagneticFieldWMM}
 \alias{GetMagneticFieldWMM}
+\alias{wmm}
 \title{Calculate Expected Magnetic Field from WMM}
 \usage{
 GetMagneticFieldWMM(lon, lat, height, time, wmmVersion = "derived")
+
+wmm(lon, lat, height, time, wmmVersion = "derived")
 }
 \arguments{
 \item{lon}{GPS longitude}

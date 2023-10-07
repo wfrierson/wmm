@@ -23,7 +23,7 @@ License: MIT + file LICENSE
 Encoding: UTF-8
 Depends: 
   R (>= 2.10)
-RoxygenNote: 6.1.1
+RoxygenNote: 7.2.3
 Suggests:
     testthat (>= 2.0.1),
     data.table (>= 1.12.2),

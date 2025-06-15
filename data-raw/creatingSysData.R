@@ -28,7 +28,8 @@
 # Import WMM Gauss coefficients
 .folderExtdata <- file.path(
   'inst',
-  'extdata'
+  'extdata',
+  'coefficients'
 )
 
 # The following files are formatted versions of WMM coefficients.
@@ -40,7 +41,8 @@
   'WMM2010.csv',
   'WMM2015.csv',
   'WMM2015v2.csv',
-  'WMM2020.csv'
+  'WMM2020.csv',
+  'WMM2025.csv'
 )
 
 .pathsWMM <- file.path(

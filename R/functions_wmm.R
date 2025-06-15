@@ -1,4 +1,4 @@
-#' Calculate Expected Magnetic Elements from WMM2020
+#' Calculate Expected Magnetic Elements from WMM2025
 #'
 #' Calculate the magnetic elements (i.e., horizontal intensity, total intensity, inclination, declination, and their secular variation) for given magnetic orthogonal components
 #'
@@ -6,7 +6,7 @@
 #'
 #' @param orthComps named \code{list} containing magnetic orthogonal components
 #'
-#' @return Expected magnetic components from WMM2020. \code{list}
+#' @return Expected magnetic components from WMM2025. \code{list}
 #'
 .CalculateMagneticElements <- function(
   orthComps
@@ -51,9 +51,9 @@
   return(output)
 }
 
-#' Calculate Expected Magnetic Field from WMM2020
+#' Calculate Expected Magnetic Field from WMM2025
 #'
-#' Calculate the magnetic field for a given location and time using the fitted spherical harmonic model from the 2020 World Magnetic Model.
+#' Calculate the magnetic field for a given location and time using the fitted spherical harmonic model from the 2025 World Magnetic Model.
 #'
 #' @noRd
 #'
@@ -62,9 +62,9 @@
 #' @param latGC GPS latitude, geocentric
 #' @param radius Radius of curvature of prime vertical at given geodetic latitude
 #' @param time Annualized date time. E.g., 2015-02-01 = (2015 + 32/365) = 2015.088
-#' @param wmmVersion String representing WMM version to use. Must be consistent with \code{time} and one of the following: 'derived', 'WMM2005', 'WMM2010', 'WMM2015', 'WMM2015v2', 'WMM2020'. Default 'derived' value will infer the latest WMM version consistent with \code{time}.
+#' @param wmmVersion String representing WMM version to use. Must be consistent with \code{time} and one of the following: 'derived', 'WMM2000', 'WMM2005', 'WMM2010', 'WMM2015', 'WMM2015v2', 'WMM2020', 'WMM2025'. Default 'derived' value will infer the latest WMM version consistent with \code{time}.
 #'
-#' @return Expected magnetic field from WMM2020, \eqn{m_{\lambda_t,\varphi_t,h_t,t}^{WMM}}{m_wmm(lambda_t, phi_t, h_t, t)}. \code{list}
+#' @return Expected magnetic field from WMM2025, \eqn{m_{\lambda_t,\varphi_t,h_t,t}^{WMM}}{m_wmm(lambda_t, phi_t, h_t, t)}. \code{list}
 .CalculateMagneticField <- function(
   lon,
   latGD,
@@ -148,7 +148,7 @@
 #' @param lat GPS latitude, geodetic
 #' @param height GPS height in meters above ellipsoid
 #' @param time Annualized date time. E.g., 2015-02-01 = (2015 + 32/365) = 2015.088; optionally an object (length 1) of class 'POSIXt' or 'Date'
-#' @param wmmVersion String representing WMM version to use. Must be consistent with \code{time} and one of the following: 'derived', 'WMM2000', 'WMM2005', 'WMM2010', 'WMM2015', 'WMM2015v2', 'WMM2020'. Default 'derived' value will infer the latest WMM version consistent with \code{time}.
+#' @param wmmVersion String representing WMM version to use. Must be consistent with \code{time} and one of the following: 'derived', 'WMM2000', 'WMM2005', 'WMM2010', 'WMM2015', 'WMM2015v2', 'WMM2020', 'WMM2025'. Default 'derived' value will infer the latest WMM version consistent with \code{time}.
 #'
 #' @return \code{list} of calculated main field and secular variation vector components in nT and nT/yr, resp. The magnetic element intensities (i.e., horizontal and total intensities, h & f) are in nT and the magnetic element angles (i.e., inclination and declination, i & d) are in degrees, with their secular variation in nT/yr and deg/yr, resp.: \code{x}, \code{y}, \code{z}, \code{xDot}, \code{yDot}, \code{zDot}, \code{h}, \code{f}, \code{i}, \code{d}, \code{hDot}, \code{fDot}, \code{iDot}, \code{dDot}
 #' @export
@@ -157,69 +157,69 @@
 #' GetMagneticFieldWMM(
 #'    lon = 240,
 #'    lat = -80,
-#'    height = 1e5,
-#'    time = 2022.5,
-#'    wmmVersion = 'WMM2020'
+#'    height = 0,
+#'    time = 2025,
+#'    wmmVersion = 'WMM2025'
 #' )
 #'
 #' ## Expected output
-#' # x = 5814.9658886215 nT
-#' # y = 14802.9663839328 nT
-#' # z = -49755.3119939183 nT
-#' # xDot = 28.0381961827 nT/yr
-#' # yDot = 1.3970624624 nT/yr
-#' # zDot = 85.6309533031 nT/yr
-#' # h = 15904.1391483373 nT
-#' # f = 52235.3588449608 nT
-#' # i = -72.27367 deg
-#' # d = 68.55389 deg
-#' # hDot = 11.5518244235 nT/yr
-#' # fDot = -78.0481471753 nT/yr
-#' # iDot = 0.04066726 deg/yr
-#' # dDot = -0.09217566 deg/yr
+#' # x = 6117.5 nT
+#' # y = 15751.9 nT
+#' # z = -52022.5 nT
+#' # xDot = 33.3 nT/yr
+#' # yDot = -8.6 nT/yr
+#' # zDot = 95.5 nT/yr
+#' # h = 16898.1 nT
+#' # f = 54698.2 nT
+#' # i = -72 deg
+#' # d = 68.78 deg
+#' # hDot = 4.0 nT/yr
+#' # fDot = -89.6 nT/yr
+#' # iDot = 0.03 deg/yr
+#' # dDot = -0.12 deg/yr
 #'
 #' ## Calculated output
 #' #$x
-#' #[1] 5814.966
+#' #[1] 6117.548
 #'
 #' #$y
-#' #[1] 14802.97
+#' #[1] 15751.91
 #'
 #' #$z
-#' #[1] -49755.31
+#' #[1] -52022.52
 #'
 #' #$xDot
-#' #[1] 28.0382
+#' #[1] 33.27253
 #'
 #' #$yDot
-#' #[1] 1.397062
+#' #[1] -8.646338
 #'
 #' #$zDot
-#' #[1] 85.63095
+#' #[1] 95.54722
 #'
 #' #$h
-#' #[1] 15904.14
+#' #[1] 16898.13
 #'
 #' #$f
-#' #[1] 52235.36
+#' #[1] 54698.17
 #'
 #' #$i
-#' #[1] -72.27367
+#' #[1] -72.00499
 #'
 #' #$d
-#' #[1] 68.55389
+#' #[1] 68.77539
 #'
 #' #$hDot
-#' #[1] 11.55182
+#' #[1] 3.985647
 #'
 #' #$fDot
-#' #[1] -78.04815
+#' #[1] -89.64208
 #'
 #' #$iDot
-#' #[1] 0.04066726
+#' #[1] 0.03489031
 #'
 #' #$dDot
-#' #[1] -0.09217566
+#' #[1] -0.1157767
 #'
 GetMagneticFieldWMM <- function(
   lon,

@@ -6,9 +6,14 @@
 #'
 #' @return List of reference year and compatible WMM versions inferred from \code{time}.
 .DeriveVersionInfo <- function(t) {
-  output <- if(t >= 2025) {
+  output <- if(t >= 2030) {
     stop('Time value not supported in current version of wmm package.')
-  } else if(t >= 2020 & t < 2025) {
+  } else if(t >= 2024 + 351 / 366 & t < 2030) {
+    list(
+      'year' = 2025,
+      'version' = 'WMM2025'
+    )
+  } else if(t >= 2020 & t < 2024 + 351 / 366) {
     list(
       'year' = 2020,
       'version' = 'WMM2020'
@@ -23,10 +28,15 @@
       'year' = 2010,
       'version' = 'WMM2010'
     )
-  } else if(t >= 2005){
+  } else if(t >= 2005) {
     list(
       'year' = 2005,
       'version' = 'WMM2005'
+    )
+  } else if(t >= 2000) {
+    list(
+      'year' = 2000,
+      'version' = 'WMM2000'
     )
   } else {
     stop('Time value not supported in current version of wmm package.')
@@ -40,7 +50,7 @@
 #' @noRd
 #'
 #' @param t Annualized date time. E.g., 2015-02-01 = (2015 + 32/365) = 2015.088
-#' @param wmmVersion String representing WMM version to use. Must be consistent with \code{time} and one of the following: 'derived', 'WMM2000', 'WMM2005', 'WMM2010', 'WMM2015', 'WMM2015v2'.
+#' @param wmmVersion String representing WMM version to use. Must be consistent with \code{time} and one of the following: 'derived', 'WMM2000', 'WMM2005', 'WMM2010', 'WMM2015', 'WMM2015v2', 'WMM2020', 'WMM2025'.
 .CheckVersionWMM <- function(t, wmmVersion) {
   # Get what WMM versions are compatible with the input time
   derivedVersionInfo <- .DeriveVersionInfo(t)
@@ -75,11 +85,11 @@
 .CheckBlackoutZone <- function(h) {
   if (h < 2000) {
     warning(
-      'Location is in the blackout zone around the magnetic pole as defined by the WMM military specification (https://www.ngdc.noaa.gov/geomag/WMM/data/MIL-PRF89500B.pdf). Compass accuracy is highly degraded in this region.'
+      'Location is in the blackout zone around the magnetic pole as defined by the WMM military specification (https://www.ngdc.noaa.gov/geomag/WMM/data/MIL-PRF-89500B.pdf). Compass accuracy is highly degraded in this region.'
     )
   } else if (h < 6000) {
     warning(
-      'Location is approaching the blackout zone around the magnetic pole as defined by the WMM military specification (https://www.ngdc.noaa.gov/geomag/WMM/data/MIL-PRF89500B.pdf). Compass accuracy may be degraded in this region.'
+      'Location is approaching the blackout zone around the magnetic pole as defined by the WMM military specification (https://www.ngdc.noaa.gov/geomag/WMM/data/MIL-PRF-89500B.pdf). Compass accuracy may be degraded in this region.'
     )
   }
 }

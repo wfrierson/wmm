@@ -33,3 +33,5 @@ rsconnect/
 packrat/lib*/
 .Rproj.user
 inst/docs
+
+inst/extdata/coefficients

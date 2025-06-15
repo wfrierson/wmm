@@ -1,3 +1,28 @@
+# wmm 1.1.3
+1. Added `inst/extdata/coefficients/` to store legacy coefficient files, though these are included in `.gitignore`.
+2. Added WMM2025 coefficient path to `data-raw/creatingSysData.R`.
+3. Added WMM2025 test values to `inst/extdata/WMMTestValues.csv`.
+4. Recalculated `R/sysdata.rda` to incorporate WMM2025 coefficients.
+5. Removed legacy roxygen syntax in `R/wmm.R`.
+6. In `R/functions_wmm.R`, updated roxygen labels and `wmmVersion` @param descriptions to include 'WMM2025', where appropriate.
+7. In `R/functions_wmm.R`, included 'WMM2000' in `wmmVersion` @param description of `.CalculateMagneticField`.
+8. In `R/functions_wmm.R`, updated @examples for `GetMagneticFieldWMM` to use an example from the official WMM2025 test values.
+9. In `R/functions_misc.R`, added date ranges for WMM2025 and WMM2000 coefficients in `.DeriveVersionInfo`.
+10. In `R/functions_misc.R`, included 'WMM2025' in `wmmVersion` @param description of `.CheckVersionWMM`.
+11. In `R/functions_misc.R`, updated URL for 'Performance Specifications WMM' in `.CheckBlackoutZone`.
+12. In `R/functions_coefficients.R`, included 'WMM2025' in `wmmVersion` @param description of `.CalculateGaussCoef`.
+13. Updated documentation in manual.
+14. Updated `tests/testthat.R` to work in vscode.
+15. Updated `vignettes/` to reference WMM2025, where appropriate.
+16. In `DESCRIPTION`:
+i. updated supported date ranges
+ii. included WMM2025 citation
+iii. updated versions within `Depends` and `Suggests`
+17. In `README.md`:
+i. updated supported date ranges
+ii. included WMM2025 citation
+18. Updated `renv.lock` to use latest package versions and R 4.3.3.
+
 # wmm 1.1.2
 1. Added HTML vignette.
 2. Added @noRd flag for internal functions.

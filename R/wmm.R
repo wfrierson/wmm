@@ -23,7 +23,6 @@
 #'
 #' @noRd
 #'
-#' @docType package
 #' @name wmm
 
 NULL

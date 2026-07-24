@@ -24,8 +24,7 @@ install.packages('wmm')
 Or, install from GitHub:
 
 ``` r
-devtools::install_github('wfrierson/wmm')
-
+pak::pak('wfrierson/wmm')
 ```
 
 # Usage
